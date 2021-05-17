@@ -112,21 +112,21 @@ export const TopMenuAdmin = () => {
                                
                             </li>
                             <li>
-                                <a href="javascript: void(0);" className="waves-effect">
+                                <Link to='/admin-test' className="waves-effect">
                                     <i className="ion-md-basket" />
                                     <span>Quản lý bài thi </span>
                                     <span className="menu-arrow" />
-                                </a>
-                                <Link to="question" className="waves-effect">
+                                </Link>
+                                <Link to="/admin-question" className="waves-effect">
                                     <i className="ion-md-basket" />
                                     <span> Ngân hàng câu hỏi </span>
                                     <span className="menu-arrow" />
                                 </Link>
-                                <a href="javascript: void(0);" className="waves-effect">
+                                <Link to="/admin-course" className="waves-effect">
                                     <i className="ion-md-basket" />
-                                    <span> UI Elements </span>
+                                    <span> Quản lý khóa học </span>
                                     <span className="menu-arrow" />
-                                </a>
+                                </Link>
                                 <a href="javascript: void(0);" className="waves-effect">
                                     <i className="ion-md-basket" />
                                     <span> UI Elements </span>

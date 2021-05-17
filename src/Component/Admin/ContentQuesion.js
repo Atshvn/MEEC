@@ -55,32 +55,32 @@ export const ContentQuestion = () => {
 
     const MEEC_Question_Save = async () => {
         if (Content === "") {
-            //Alertwarning("Nhập khách hàng");
+            Alertwarning("Nhập câu hỏi");
             ContentRef.current.focus();
             return;
         }
         if (answerA === "") {
-            //Alertwarning("Nhập khách hàng");
+            Alertwarning("Nhập đáp án");
             ARef.current.focus();
             return;
         }
         if (answerB === "") {
-            //Alertwarning("Nhập khách hàng");
+            Alertwarning("Nhập đáp án");
             BRef.current.focus();
             return;
         }
         if (answerC === "") {
-            //Alertwarning("Nhập khách hàng");
+            Alertwarning("Nhập đáp án");
             CRef.current.focus();
             return;
         }
         if (answerD === "") {
-            //Alertwarning("Nhập khách hàng");
+            Alertwarning("Nhập đáp án");
             DRef.current.focus();
             return;
         }
         if (Correct === "") {
-            //Alertwarning("Nhập khách hàng");
+            Alertwarning("Nhập kết quả");
             CorrectRef.current.focus();
             return;
         }
@@ -239,7 +239,7 @@ export const ContentQuestion = () => {
     const [showBnt, setShowBnt] = useState(false);
     const [dataOK, setDataOK] = useState([]);
     const [hinndenTable, setHinndenTable] = useState(true)
-
+    const [disableBtn, setDisableBtn] = useState(false)
 
     //handle change choose file
     const handleChange = (e) => {
@@ -309,25 +309,22 @@ export const ContentQuestion = () => {
         setDataOK([...arrNew]);
     }
 
-    //save data upload
-    // const CPN_spCustomerTargetRevenue_UploadExcel_Save = async () => {
-    //     const pr = dataOK
-    //     const params = {
-    //         Json: JSON.stringify(pr),
-    //         func: "CPN_spCustomerTargetRevenue_UploadExcel_Save",
-    //         API_key: "netco Apikey2025"
-    //     }
-    //     const result = await mainAction.API_spCallServer(params, dispatch);
-    //     if (result.Status === "OK") {
-    //         Alertsuccess(result.ReturnMess);
-    //         handleDelete();
-    //         return;
-    //     }
-    //     if (result.Status === "NOTOK") {
-    //         Alerterror(result.ReturnMess);
-    //         return;
-    //     }
-    // }
+    const MEEC_Question_UploadExcel_Save = async () => {
+        const pr = dataOK
+        try {
+            setDisableBtn(true)
+            const response = await QuestionAPI.postMutil(pr);
+            console.log('Fetch  successfully: ', response);
+            Alertsuccess("Upload excel thành công");
+            handleDelete();
+            MEEC_Question_List();
+            setDisableBtn(false)
+        } catch (error) {
+            Alerterror("Lỗi")
+            console.log('Failed to fetch: ', error);
+            setDisableBtn(false)
+        }
+    }
     //#endregion
 
     return (
@@ -373,7 +370,7 @@ export const ContentQuestion = () => {
                                                         <div class="form-group">
                                                             <label class="label mb-0">Câu hỏi</label>
                                                             <div class="input-group">
-                                                                <input type="text" class="form-control back-ground"
+                                                                <input type="text" class="form-control back-ground text-input"
                                                                     ref={ContentRef} value={Content} onChange={e => setContent(e.target.value)} />
                                                             </div>
                                                         </div>
@@ -424,11 +421,11 @@ export const ContentQuestion = () => {
                                                         </div>
                                                     </div>
                                                     <div className="col-12 d-flex justify-content-center mt-4">
-                                                        <button className="btn btn-danger waves-effect width-md waves-light mr-3 "
+                                                        <button className="btn bg-c waves-effect width-md waves-light mr-3 "
                                                         onClick={SaveAndEdit}>
                                                             Lưu
                                                         </button>
-                                                        <button className="btn btn-secondary waves-effect width-md "
+                                                        <button className="btn bg-d waves-effect width-md "
                                                         onClick={MEEC_Question_Cancer}>
                                                             Hủy
                                                         </button>
@@ -470,12 +467,12 @@ export const ContentQuestion = () => {
                                         <div class="card " >
                                             <div class="card-header bg-c p-1">
                                                 <div class="row">
-                                                    <div class="col-12 col-md-6 d-flex align-items-center ">
+                                                    <div class="col-12 col-md-6 d-flex align-items-center pl-3 ">
                                                         <h3 className="color-white card-title font-weight-bold mb-0"> UPLOAD EXCEL</h3>
                                                     </div>
                                                     <div class="col-12 col-md-6 pt-2">
                                                         <Link style={{ marginTop: '-8px', padding: '3px 10px' }}
-                                                            className=" btn btn-pink pull-right"
+                                                            className=" btn bg-p pull-right"
                                                             download
                                                             target="_blank"
                                                             to="/assets/Excel/Danh-sach-cau-hoi.xlsx"
@@ -538,12 +535,12 @@ export const ContentQuestion = () => {
                                         <div className={hinndenTable ? "row display-none" : "row"}>
                                             <div className="col-12">
                                                 <div className="card bx">
-                                                    <div class="card-header bg-w p-2">
+                                                    <div class="card-header back-ground p-2">
                                                         <div class=" d-flex align-items-center ">
-                                                            <h3 className="color-white card-title font-weight-bold mb-0">Dữ liệu hợp lệ ({dataOK.length})</h3>
+                                                            <h3 className=" card-title font-weight-bold mb-0">Dữ liệu hợp lệ ({dataOK.length})</h3>
                                                         </div>
                                                     </div>
-                                                    <div class="table-responsive" >
+                                                    <div class="table-responsive" style={{maxHeight:'350px'}}>
                                                         <table class=" card-body table table-striped">
                                                             <thead>
                                                                 <tr class="thead-custom">
@@ -580,7 +577,8 @@ export const ContentQuestion = () => {
                                                     <i class="fa fa-trash pr-2"></i>
                                                 Hủy
                                             </button>
-                                                <button type="button" class="btn bg-c waves-effect width-md waves-light pull-right mr-2">
+                                                <button disabled={disableBtn ? true : false} type="button" class="btn bg-c waves-effect width-md waves-light pull-right mr-2" 
+                                                onClick={MEEC_Question_UploadExcel_Save}>
                                                     <i class="fa fa-edit pr-2"></i>
                                                 Lưu
                                             </button>

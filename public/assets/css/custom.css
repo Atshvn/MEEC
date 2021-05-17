@@ -225,7 +225,7 @@ body {
     
 }
 .SelectMeno > div {
-    background-color: #F2F2F2;
+    background-color: #EFF3FF;
 }
 .dropdownmenu {
     position: relative;
@@ -302,8 +302,8 @@ body {
 .bx{
     box-shadow: rgb(153 196 227 / 35%) 0px 4px 10px;
 }
-span, input[type="text"]{
-    font-size: 16px;
+label, .text-input{
+    font-size: 15px !important;
 }
 .uploadFileContainer {
     border: 1px dashed #8d9fc2;
@@ -367,6 +367,25 @@ span, input[type="text"]{
 .bg-w{
     background-color: #ffbe55;
 }
+.bg-d{
+    background-color: #f44336;
+}
 .title{
     color: #fff;
+}
+.SelectDatetime{
+    height: 38px;
+   
+
+}
+.SelectDatetime > div {
+    background-color: #EFF3FF;
+    border-radius: 4px
+}
+.react-datetime-picker{
+    width: 100%;
+    
+}
+.react-datetime-picker__wrapper{
+    border: none !important
 }

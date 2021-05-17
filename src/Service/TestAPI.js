@@ -2,9 +2,33 @@ import axiosClient from "./axiosClient";
 
 export const TestAPI = {
     getAll: (params) => {
-        const url = '/products';
+        const url = '/test/listtest';
         return axiosClient.get(url, { params });
-    }
+    },
+    getUnfinished: (params) => {
+        const url = '/test/new';
+        return axiosClient.get(url, { params });
+    },
+    getFinish: (params) => {
+        const url = '/test/old';
+        return axiosClient.get(url, { params });
+    },
+    post:  (data) => {
+        const url = '/test';
+        return axiosClient.post(url, data);
+    },
+    // getTestActive: (params) => {
+    //     const url = '/test/new';
+    //     return axiosClient.get(url, { params });
+    // },
+    // getTestActive: (params) => {
+    //     const url = '/test/new';
+    //     return axiosClient.get(url, { params });
+    // },
+    // getTestActive: (params) => {
+    //     const url = '/test/new';
+    //     return axiosClient.get(url, { params });
+    // }
 }
 
 // const [productList, setProductList] = useState([]);

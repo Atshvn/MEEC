@@ -16,5 +16,9 @@ export const QuestionAPI = {
     post: ( data) => {
         const url = '/questions';
         return axiosClient.post(url,  data );
+    },
+    postMutil: ( data) => {
+        const url = '/questions/questions';
+        return axiosClient.post(url,  data );
     }
 }
