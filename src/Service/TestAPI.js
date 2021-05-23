@@ -5,6 +5,14 @@ export const TestAPI = {
         const url = '/test/listtest';
         return axiosClient.get(url, { params });
     },
+    getByCourse: (id) => {
+        const url = `/test/listByCourse/${id}`;
+        return axiosClient.get(url);
+    }, 
+    get: (id) => {
+        const url = `/test/${id}`;
+        return axiosClient.get(url);
+    },
     getUnfinished: (params) => {
         const url = '/test/new';
         return axiosClient.get(url, { params });
@@ -17,6 +25,14 @@ export const TestAPI = {
         const url = '/test';
         return axiosClient.post(url, data);
     },
+    delete: (id) => {
+        const url = `/test/${id}`;
+        return axiosClient.delete(url);
+    },
+    put: (id, data) => {
+        const url = `/test/${id}`;
+        return axiosClient.put(url, data);
+    }
     // getTestActive: (params) => {
     //     const url = '/test/new';
     //     return axiosClient.get(url, { params });

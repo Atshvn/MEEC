@@ -1,11 +1,11 @@
-import { Banner, CarouselSubject, Intro, Partner } from "./Chil"
-import React, { useState, useEffect, useRef } from "react";
-
+import { CarouselSubject,  Partner } from "./Chil"
+import React, { useEffect } from "react";
 export const Course = () => {
     useEffect(() => {
         document.querySelector(".main-header").classList.remove("display-none");
         document.querySelector(".main-foodter").classList.remove("display-none");
     }, [])
+   
     return (
         <>
             <div class="container">
@@ -43,7 +43,7 @@ export const Course = () => {
                         <div className="col-md-1 col-0"></div>
                     </div>
                     <div>
-                        <img style={{width:'100%', height:'auto'}} src="../assets/images/course2.jpg" alt="" />
+                        <img style={{ width: '100%', height: 'auto' }} src="../assets/images/course2.jpg" alt="" />
                     </div>
                 </div>
             </div>

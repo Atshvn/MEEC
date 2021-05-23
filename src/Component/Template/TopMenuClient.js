@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from 'react-router-dom';
 import logo from '../../logo.png'
 
@@ -38,12 +38,12 @@ export const TopMenuClient = () => {
                                             </span>
                                         </Link>
                                         <div class="dropdown-content">
-                                            <a href="#">Link 1</a>
-                                            <a href="#">Link 2</a>
-                                            <a href="#">Link 3</a>
-                                            <a href="#">Link 1</a>
-                                            <a href="#">Link 2</a>
-                                            <a href="#">Link 3</a>
+                                            <Link href="#">Thành thạo 4 kĩ năng TOEIC</Link>
+                                            <Link href="#">TOEIC 0 - 500 từ mất gốc</Link>
+                                            <Link href="#">Luyện thi TOEIC cấp tốc</Link>
+                                            <Link href="#">Tiếng anh giao tiếp</Link>
+                                            <Link href="#">Tiếng anh cho thiếu nhi</Link>
+                                            <Link href="#">Tiếng anh cho người đi làm</Link>
                                         </div>
                                     </li>
                                     <li class="nav-item"><a href="#" class="nav-link text-uppercase font-weight-bold">Tài liệu</a></li>

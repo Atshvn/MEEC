@@ -1,6 +1,6 @@
 import { TopMenuAdmin } from "../Template"
-import { QuestionAPI, TestAPI } from "../../Service";
-import { Alertsuccess, Alerterror, Alertwarning, DataTable, ExportExcel, SelectCourse, FormatDateJson } from "../../Commom";
+import { QuestionAPI, TestAPI, CourseAPI } from "../../Service";
+import { Alertsuccess, Alerterror, Alertwarning, DataTable, ExportExcel, SelectCourse, FormatDateJson, FormatDate } from "../../Commom";
 import React, { useState, useEffect, useRef } from 'react';
 import DateTimePicker from 'react-datetime-picker'
 import Select from 'react-select';
@@ -12,7 +12,7 @@ export const TestManager = () => {
     }, [])
 
     useEffect(() => {
-       
+        MEEC_Course_List();
     }, []);
 
     const [ID, setID] = useState(0);
@@ -36,18 +36,72 @@ export const TestManager = () => {
     const [dataUnfinish, setDataUnfinish] = useState([])
     const [dataFinish, setDataFinish] = useState([])
 
-    const [CourseSearch, setCourseSearch] = useState(0)
+    const [CourseSearch, setCourseSearch] = useState(0);
+    const [DataCourse, setDataCourse] = useState([]);
+    const [Edit, setEdit] = useState(false)
 
+    const MEEC_Course_List = async () => {
+        try {
+            //const params = { _page: 1, _limit: 10 };
+            const response = await CourseAPI.getAll();
+            console.log('List: ', response);
+
+            setDataCourse(response)
+        } catch (error) {
+            console.log('Failed to fetch: ', error);
+        }
+    }
+
+    const filterItem = (item) => {
+        return DataCourse.filter(i => i.courseId === item);
+    }
     //#region List
     const MEEC_Test_List = async () => {
         try {
-            //const params = { _page: 1, _limit: 10 };
             const response = await TestAPI.getAll();
-            console.log('List: ', response);
+            const newData = response.map(item => {
+                const itemNew = filterItem(item.courseId);
+                const Status = item.state ? "Chưa thi" : "Đã thi";
+                return {
+                    ...item,
+                    courseName: itemNew[0].name,
+                    dateTest: FormatDate(item.dateTest),
+                    Status: Status
+                }
 
-            setData(response)
+
+            })
+            setData(newData)
         } catch (error) {
             console.log('Failed to fetch: ', error);
+        }
+    }
+    const MEEC_Test_List_ByCourse = async () => {
+       console.log(CourseSearch)
+        try {
+            const response = await TestAPI.getByCourse(CourseSearch);
+            const newData = response.map(item => {
+                const itemNew = filterItem(item.courseId);
+                const Status = item.state ? "Chưa thi" : "Đã thi";
+                return {
+                    ...item,
+                    courseName: itemNew[0].name,
+                    dateTest: FormatDate(item.dateTest),
+                    Status: Status
+                }
+            })
+            setData(newData)
+        } catch (error) {
+            console.log('Failed to fetch: ', error);
+        }
+    }
+    const HandleList = () => {
+        setData([])
+        if(CourseSearch === 0){
+            return MEEC_Test_List();
+        }
+        else{
+            return MEEC_Test_List_ByCourse();
         }
     }
     const MEEC_TestUnFinish_List = async () => {
@@ -129,13 +183,13 @@ export const TestManager = () => {
         }
     }
 
-    const MEEC_Question_Delete = async (Id) => {
+    const MEEC_Test_Delete = async (Id) => {
         try {
             //const params = { _page: 1, _limit: 10 };
-            const response = await QuestionAPI.delete({ id: Id });
+            const response = await TestAPI.delete(Id);
             console.log('Fetch  successfully: ', response);
             Alertsuccess("Xóa thành công");
-            const newData = data.filter(i => i.questionId !== Id);
+            const newData = data.filter(i => i.testId !== Id);
             setData(newData)
         } catch (error) {
             Alerterror("Lỗi")
@@ -143,18 +197,51 @@ export const TestManager = () => {
         }
     }
 
-    const MEEC_Question_View = (item) => {
+    const MEEC_Test_View = (item) => {
+        setEdit(true)
+        setID(item.testId)
+        setTestName(item.testName)
+        setTestTime(item.time);
+        setTotalQuestion(item?.totalQuestion);
+        setCourseID(item.courseId)
 
         document.querySelector("#data-add").click();
     }
 
-    const MEEC_Question_Cancer = () => {
-
+    const MEEC_Test_Cancer = () => {
+        setEdit(false)
+        setTestName("")
+        setTestTime(0);
+        setTotalQuestion(0);
+        setCourseID(0)
         setID(0);
 
     }
+    const MEEC_Test_Edit = async () => {
+        setEdit(true)
+        const obj = {
+            testName: TestName,
+            time: TestTime,
+            totalQuestion: TotalQuestion,
+            courseId: CourseID
+        }
+        try {
+            //const params = { _page: 1, _limit: 10 };
+            const response = await TestAPI.put(ID, obj);
+            console.log('Fetch  successfully: ', response);
+            Alertsuccess("Cập nhật thành công");
+            setEdit(false)
+            MEEC_Course_List();
+        } catch (error) {
+            setEdit(true)
+            Alerterror("Lỗi")
+            console.log('Failed to fetch: ', error);
+        }
+    }
 
-
+    const HandleSave = () => {
+        Edit ? MEEC_Test_Edit() : MEEC_Test_Save();
+    }
 
 
     //#region Table
@@ -163,7 +250,7 @@ export const TestManager = () => {
             Header: "Tùy chọn",
             accessor: '[row identifier to be passed to button]',
             fixed: 'left',
-            width: 110,
+            minWidth: 110,
             Cell: ({ row }) => (<span><button
                 className="btn btn-sm btn-info" style={{ marginRight: '5px' }} onClick={e => clickEdit({ row })}>Sửa
                 </button><button
@@ -171,40 +258,44 @@ export const TestManager = () => {
                 </button></span>)
         },
         {
-            Header: "Nội dung",
-            accessor: "content",
-            width: 400
+            Header: "Tên bài kiểm tra",
+            accessor: "testName",
+            minWidth: 200
         },
         {
-            Header: "Đáp án 1",
-            accessor: "answerA",
+            Header: "Thuộc khóa",
+            accessor: "courseName",
+            minWidth: 200
         },
         {
-            Header: "Đáp án 2",
-            accessor: "answerB",
+            Header: "Thời lượng thi (phút)",
+            accessor: "time",
+            minWidth: 150
         },
         {
-            Header: "Đáp án 3",
-            accessor: "answerC",
+            Header: "Số lượng câu hỏi",
+            accessor: "totalQuestion",
+            minWidth: 150
 
         },
         {
-            Header: "Đáp án 4",
-            accessor: "answerD",
+            Header: "Ngày thi",
+            accessor: "dateTest",
+            minWidth: 100
 
-        }
-        ,
+        },
         {
-            Header: "Đáp án đúng",
-            accessor: "corectAns",
+            Header: "Tình trạng",
+            accessor: "Status",
+            minWidth: 100
 
         }
     ];
     const clickEdit = (item) => {
-        MEEC_Question_View(item.row._original)
+        MEEC_Test_View(item.row._original)
     }
     const clickDelete = (item) => {
-        MEEC_Question_Delete(item.row._original.questionId);
+        MEEC_Test_Delete(item.row._original.testId);
     }
     const clickexcel = () => {
         ExportExcel(newData, "Danh-sach-cau-hoi");
@@ -308,16 +399,14 @@ export const TestManager = () => {
                                                                 </div>
                                                             </div>
                                                         </div>
-
-
                                                         <div className="col-12 d-flex justify-content-center mt-4">
                                                             <button disabled={disableBtn ? true : false} className="btn bg-c waves-effect width-md waves-light mr-3 "
-                                                                onClick={MEEC_Test_Save}
+                                                                onClick={HandleSave}
                                                             >
                                                                 Lưu
                                                         </button>
                                                             <button className="btn bg-d waves-effect width-md "
-                                                                onClick={MEEC_Question_Cancer}>
+                                                                onClick={MEEC_Test_Cancer}>
                                                                 Hủy
                                                         </button>
                                                         </div>
@@ -339,7 +428,7 @@ export const TestManager = () => {
                                                                 <i class="fa fa-download pr-2"></i>
                                                         Xuất Excel
                                                     </button>
-                                                            <button type="button" class="btn btn-sm btn-danger pull-right mr-2" onClick={MEEC_Test_List} >
+                                                            <button type="button" class="btn btn-sm btn-danger pull-right mr-2" onClick={HandleList} >
                                                                 <i class="fa fa-eye pr-2"></i>
                                                         Xem
                                                     </button>
@@ -347,17 +436,17 @@ export const TestManager = () => {
                                                     </div>
                                                 </div>
                                                 <div className="card-body w-50 m-auto">
-                                                            <div class="form-group">
-                                                                <label class="label mb-0">Khóa học</label>
-                                                                <div class="input-group">
-                                                                    <SelectCourse
-                                                                        onSelected={e => setCourseSearch(e.value)}
-                                                                        items={CourseSearch}
-                                                                        font="font-16"
-                                                                        title="Chọn tất cả">
-                                                                    </SelectCourse>
-                                                                </div>
-                                                            </div>
+                                                    <div class="form-group">
+                                                        <label class="label mb-0">Khóa học</label>
+                                                        <div class="input-group">
+                                                            <SelectCourse
+                                                                onSelected={e => setCourseSearch(e.value)}
+                                                                items={CourseSearch}
+                                                                font="font-16"
+                                                                title="Chọn tất cả">
+                                                            </SelectCourse>
+                                                        </div>
+                                                    </div>
                                                 </div>
                                                 <div className="table-responsive font-16" style={{ color: '#555', zIndex: '0' }}>
                                                     <DataTable

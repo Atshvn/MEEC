@@ -1,5 +1,5 @@
+import { Link } from 'react-router-dom'
 import logo from '../../logo2.png'
-
 
 export const Foodter = () => {
     return (
@@ -27,16 +27,24 @@ export const Foodter = () => {
                         <h6 class="font-weight-bold text-uppercase mt-3 mb-4">CÁC KHÓA HỌC</h6>
                         <ul class="list-unstyled">
                             <li class="foodter__li">
-                                <a href="#!">Link 1</a>
+                            <Link href="#">Thành thạo 4 kĩ năng TOEIC</Link>
                             </li>
                             <li class="foodter__li">
-                                <a href="#!">Link 2</a>
+                            <Link href="#">TOEIC 0 - 500 từ mất gốc</Link>
+
                             </li>
                             <li class="foodter__li">
-                                <a href="#!">Link 3</a>
+                            <Link href="#">Luyện thi TOEIC cấp tốc</Link>
+
                             </li>
                             <li class="foodter__li">
-                                <a href="#!">Link 4</a>
+                            <Link href="#">Tiếng anh giao tiếp</Link>
+
+                            </li>
+                            <li class="foodter__li">
+                            <Link href="#">Tiếng anh cho người đi làm</Link>
+
+
                             </li>
                         </ul>
                     </div>
