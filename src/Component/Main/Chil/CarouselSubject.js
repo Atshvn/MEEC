@@ -28,7 +28,7 @@ export const CarouselSubject = ({
            return(
             <div key={index} class="col-md-4 col-12">
             <div class="card bx">
-                <img class="card-img-top img-fluid" src="assets\images\gallery\9.jpg" alt="Card image cap" />
+                <img class="card-img-top img-fluid" src={`assets/images/banner-course${index+1}.jpg`} alt="Card image cap" />
                 <div class="card-body">
                     <h5 class="card-title f-900 font-20">{item.name}</h5>
                     <p class="card-text">{item.description}
@@ -39,7 +39,7 @@ export const CarouselSubject = ({
                                 <small class=" align-middle f-900">{item.timeStudy} giờ</small>
                             </div>
                             <div className="col-6">
-                                <Link to="/course/1" style={{ display: 'block', color: '#555' }} className="btn btn-rounded bg-i w-100">
+                                <Link to="/course1" style={{ display: 'block', color: '#555' }} className="btn btn-rounded bg-i w-100">
                                     <span class="color-white font-18"> Xem thêm</span>
                                 </Link>
                             </div>

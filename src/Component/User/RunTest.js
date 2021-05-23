@@ -1,8 +1,9 @@
 
-import React, { useState,  useReducer, useContext } from "react";
-import {  Alerterror} from "../../Commom";
+import React, { useState, useReducer, useContext } from "react";
+import { Alerterror, Alertsuccess } from "../../Commom";
 import TestContext from "../../Context/TestContext";
 import TestReducers from "../../Reducers/TestReducers";
+import { useHistory } from 'react-router'
 import {
     SET_ANSWERS,
     SET_CURRENT_QUESTION,
@@ -10,12 +11,16 @@ import {
     SET_ERROR,
     SET_SHOW_RESULTS,
     RESET_QUIZ,
+    SET_RESULT
 } from "../../Reducers/types";
+import { TestAPI } from "../../Service";
+
 
 export const RunTest = ({
     questions = [],
     testId = 0,
-    show = false
+    show = false,
+    callShow= callShow()
 }) => {
     const initialState = {
         questions,
@@ -24,29 +29,34 @@ export const RunTest = ({
         answers: [],
         showResults: false,
         error: '',
+        results: []
     };
+    const history = useHistory()
 
     const [state, dispatch] = useReducer(TestReducers, initialState);
-    const { currentQuestion, currentAnswer, answers, showResults, error } = state;
+    const { currentQuestion, currentAnswer, answers, showResults, error, results } = state;
 
     const question = questions[currentQuestion];
+
     const renderError = () => {
         if (!error) {
             return;
         }
         Alerterror("Hãy chọn đáp án")
-
         return <div className="error text-danger"> {error} </div>;
     };
+ 
+   
     const renderResultMark = (question, answer) => {
-
         if (question.corectAns === answer.answer) {
             return <span className="correct">Correct</span>;
         }
-
         return <span className="failed">Failed</span>;
     };
+
+
     const [Score, setScore] = useState(0);
+
     const renderResultsData = () => {
         const arr = [];
         const arrCorrect = []
@@ -55,60 +65,64 @@ export const RunTest = ({
                 question => question.questionId === answer.questionId
             );
             if (question.corectAns === answer.answer) {
-                arr.push({ question: question.questionId, answer: answer.answer, OK: true })
-                arrCorrect.push({ question: question.questionId, answer: answer.snswer })
+                arr.push({ questionId: question.questionId, answer: answer.answer, ok: true })
+                results.push({ questionId: question.questionId, answer: answer.answer, ok: true })
+                arrCorrect.push({ questionId: question.questionId, answer: answer.snswer })
             }
             else {
-                arr.push({ question: question.questionId, answer: answer.answer, OK: false })
-
+                arr.push({ questionId: question.questionId, answer: answer.answer, ok: false })
+                results.push({ questionId: question.questionId, answer: answer.answer, ok: true })
             }
-
         });
+
         const x = Math.round(arrCorrect.length / questions.length * 1000) / 100;
         return (
             <div className="text-center mt-2">
                 <div className="font-20 f-900">
                     Số lượng câu trả lời đúng: {arrCorrect.length}/{questions.length}
                 </div>
-                <div  className="font-20 f-900">
+                <div className="font-20 f-900">
                     Điểm: {x}
                 </div>
                 <div>
                     <button className="btn bg-c btn-lg mt-4" onClick={e => handleSaveResult(x, arr)}>
-                        Xác nhận kết quả
+                        Nạp bài thi
                     </button>
                 </div>
-
             </div>
         )
     };
+
+
     const handleSaveResult = (score, arr) => {
-            show=true;
+        show = true;
         setScore(score);
+        
+        dispatch({ type: SET_RESULT, results });
+
         const obj = {
-            accountId: 0,
+            accountId: 2,
             testId: testId,
             score: score,
             answers: arr
         }
         console.log(obj);
+        MEEC_RESULT_Save(obj)
     }
+
     const restart = () => {
         dispatch({ type: RESET_QUIZ });
     };
 
     const next = () => {
         const answer = { questionId: question.questionId, answer: currentAnswer };
-
         if (!currentAnswer) {
             dispatch({ type: SET_ERROR, error: 'Hãy chọn đáp án' });
             return;
         }
-
         answers.push(answer);
         dispatch({ type: SET_ANSWERS, answers });
         dispatch({ type: SET_CURRENT_ANSWER, currentAnswer: '' });
-
         if (currentQuestion + 1 < questions.length) {
             dispatch({
                 type: SET_CURRENT_QUESTION,
@@ -116,7 +130,6 @@ export const RunTest = ({
             });
             return;
         }
-
         dispatch({ type: SET_SHOW_RESULTS, showResults: true });
     };
 
@@ -127,9 +140,10 @@ export const RunTest = ({
             </h2>
         );
     }
+
+
     function Answer(props) {
         let classes = ['answer', 'btn bg-w w-100 font-18  btn-rounded btn-confirm'];
-
         const handleClick = e => {
             props.dispatch({
                 type: SET_CURRENT_ANSWER,
@@ -137,7 +151,6 @@ export const RunTest = ({
             });
             props.dispatch({ type: SET_ERROR, error: '' });
         };
-
         if (props.selected) {
             classes.push('selected');
         }
@@ -150,6 +163,8 @@ export const RunTest = ({
             </button>
         );
     }
+
+
     function Answers() {
         const { state, dispatch } = useContext(TestContext);
         const { currentAnswer, currentQuestion, questions } = state;
@@ -166,7 +181,6 @@ export const RunTest = ({
                         />
                     </div>
                     <div className="col-md-6 mb-2">
-
                         <Answer
                             letter="B"
                             answer={question.answerB}
@@ -193,6 +207,21 @@ export const RunTest = ({
                 </div>
             </>
         );
+    }
+    const MEEC_RESULT_Save = async (obj) => {
+       
+        try {
+            //const params = { _page: 1, _limit: 10 };
+            const response = await TestAPI.submit(obj);
+            console.log('Fetch  successfully: ', response);
+            Alertsuccess("Nạp bài thành công");
+            callShow(false)
+            
+        } catch (error) {
+            Alerterror("Lỗi")
+            console.log('Failed to fetch: ', error);
+
+        }
     }
     const Question = () => {
         const { state } = useContext(TestContext);

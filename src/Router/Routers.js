@@ -1,17 +1,20 @@
 import { Demo, Home, Course, Course1 , Course3 , Course4, Course5, Course6 , Course2} from '../Component/Main';
 import { Foodter, TopMenuClient} from '../Component/Template'
 import { Route, Switch, BrowserRouter } from 'react-router-dom';
-import { ForgotPass, Login } from '../Component/System';
+import { ForgotPass, Login , Signup} from '../Component/System';
 import { MainUser, Profile } from '../Component/User';
 import { HomeAdmin, Question, TestManager } from '../Component/Admin';
 import { CourseManage } from '../Component/Admin/CourseManage';
+import ScrollToTop from '../Commom/ScrollToTop';
 export const Routers = () => {
     return (
         <BrowserRouter>
             <Route path="/" component={TopMenuClient} />
+            <ScrollToTop/>
             <Switch>
                 <Route exact path="/" component={Home} />
                 <Route exact path="/login" component={Login}/>
+                <Route exact path="/signup" component={Signup}/>
                 <Route exact path="/forgot-password" component={ForgotPass}/>
                 <Route exact path="/demo" component={Demo} />
                 <Route exact path="/main" component={MainUser} />

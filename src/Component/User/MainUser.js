@@ -28,6 +28,10 @@ export const MainUser = () => {
     const filterItem = (data, item) => {
         return data.filter(i => i.courseId === item);
     }
+
+    const callShow = (value) =>{
+        setShowTest(value)
+    }
     //#region List
     const MEEC_Test_List = async () => {
         try {
@@ -330,7 +334,8 @@ export const MainUser = () => {
                 <div className="wraptest">
                     {showTest ? <RunTest
                         questions={dataQuestion}
-                        testId={TestID} /> : <p></p>}
+                        testId={TestID}
+                        callShow= {callShow} /> : <p></p>}
                 </div>
             </div>
 

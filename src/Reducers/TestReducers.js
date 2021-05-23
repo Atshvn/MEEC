@@ -5,6 +5,7 @@ import {
     SET_ERROR,
     SET_SHOW_RESULTS,
     RESET_QUIZ,
+    SET_RESULT
 } from './types.js';
 
 function TestReducers(state, action) {
@@ -42,6 +43,12 @@ function TestReducers(state, action) {
                 currentAnswer: '',
                 showResults: false,
                 error: '',
+                results: []
+            };
+        case SET_RESULT:
+            return {
+                ...state,
+                result: action.results,
             };
         default:
             return state;

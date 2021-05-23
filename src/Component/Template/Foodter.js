@@ -3,12 +3,12 @@ import logo from '../../logo2.png'
 
 export const Foodter = () => {
     return (
-        <footer class="main-foodter" >
+        <footer class="main-foodter foodter" >
             <div claas="page-footer font-small indigo mt-5 foodter ">
             <div class="container text-center text-md-left">
                 <div class="row">
                     <div class="col-md-3 ">
-                        <h6 class="font-weight-bold text-uppercase "><img class="logo" style={{ marginLeft: '-30px' }} src={logo} alt="" /></h6>
+                        <h6 class="font-weight-bold text-uppercase "><Link to=""><img class="logo" style={{ marginLeft: '-30px' }} src={logo} alt="" /></Link></h6>
                         <ul class="list-unstyled">
                             <li class="foodter__li">
                                 Email: support@meec.edu.vn
@@ -27,22 +27,22 @@ export const Foodter = () => {
                         <h6 class="font-weight-bold text-uppercase mt-3 mb-4">CÁC KHÓA HỌC</h6>
                         <ul class="list-unstyled">
                             <li class="foodter__li">
-                            <Link href="#">Thành thạo 4 kĩ năng TOEIC</Link>
+                            <Link  to="course1" href="#">Thành thạo 4 kĩ năng TOEIC</Link>
                             </li>
                             <li class="foodter__li">
-                            <Link href="#">TOEIC 0 - 500 từ mất gốc</Link>
+                            <Link  to="course2" href="#">TOEIC 0 - 500 từ mất gốc</Link>
 
                             </li>
                             <li class="foodter__li">
-                            <Link href="#">Luyện thi TOEIC cấp tốc</Link>
+                            <Link  to="course3" href="#">Luyện thi TOEIC cấp tốc</Link>
 
                             </li>
                             <li class="foodter__li">
-                            <Link href="#">Tiếng anh giao tiếp</Link>
+                            <Link to="course4" href="#">Tiếng anh giao tiếp</Link>
 
                             </li>
                             <li class="foodter__li">
-                            <Link href="#">Tiếng anh cho người đi làm</Link>
+                            <Link to="course5" href="#">Tiếng anh cho người đi làm</Link>
 
 
                             </li>

@@ -38,12 +38,12 @@ export const TopMenuClient = () => {
                                             </span>
                                         </Link>
                                         <div class="dropdown-content">
-                                            <Link href="#">Thành thạo 4 kĩ năng TOEIC</Link>
-                                            <Link href="#">TOEIC 0 - 500 từ mất gốc</Link>
-                                            <Link href="#">Luyện thi TOEIC cấp tốc</Link>
-                                            <Link href="#">Tiếng anh giao tiếp</Link>
-                                            <Link href="#">Tiếng anh cho thiếu nhi</Link>
-                                            <Link href="#">Tiếng anh cho người đi làm</Link>
+                                            <Link  to="course1" href="#">Thành thạo 4 kĩ năng TOEIC</Link>
+                                            <Link  to="course2" href="#">TOEIC 0 - 500 từ mất gốc</Link>
+                                            <Link  to="course3" href="#">Luyện thi TOEIC cấp tốc</Link>
+                                            <Link  to="course4" href="#">Tiếng anh giao tiếp</Link>
+                                            <Link  to="course5" href="#">Tiếng anh cho thiếu nhi</Link>
+                                            <Link to="course6" href="#">Tiếng anh cho người đi làm</Link>
                                         </div>
                                     </li>
                                     <li class="nav-item"><a href="#" class="nav-link text-uppercase font-weight-bold">Tài liệu</a></li>

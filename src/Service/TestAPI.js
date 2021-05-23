@@ -32,6 +32,10 @@ export const TestAPI = {
     put: (id, data) => {
         const url = `/test/${id}`;
         return axiosClient.put(url, data);
+    },
+    submit:  (data) => {
+        const url = '/test/submit';
+        return axiosClient.post(url, data);
     }
     // getTestActive: (params) => {
     //     const url = '/test/new';
