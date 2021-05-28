@@ -295,6 +295,7 @@ export const TestManager = () => {
         MEEC_Test_View(item.row._original)
     }
     const clickDelete = (item) => {
+  
         MEEC_Test_Delete(item.row._original.testId);
     }
     const clickexcel = () => {
@@ -362,7 +363,7 @@ export const TestManager = () => {
                                                             <div class="form-group">
                                                                 <label class="label mb-0">Thời gian thi (phút)</label>
                                                                 <div class="input-group">
-                                                                    <input type="text" class="form-control back-ground"
+                                                                    <input type="number" class="form-control back-ground"
                                                                         ref={TestTimeRef} value={TestTime} onChange={e => setTestTime(e.target.value)} />
                                                                 </div>
                                                             </div>

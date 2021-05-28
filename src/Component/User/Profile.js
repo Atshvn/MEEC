@@ -7,7 +7,13 @@ export const Profile = () => {
         document.querySelector(".main-header").classList.add("display-none");
         document.querySelector(".main-foodter").classList.add("display-none");
     }, [])
-
+    const [email, setEmail] = useState("");
+    const [userName, setUserName] = useState("")
+    useEffect(() => {
+        const UserData = JSON.parse(localStorage.getItem("UserInfor"));
+        setEmail(UserData.email)
+        setUserName(UserData.fullName)
+    }, [])
     return (
         <div>
             <TopMenuUser />
@@ -16,12 +22,15 @@ export const Profile = () => {
                     <SiderBarUser />
                 </div>
                 <div className="col-md-8 col-12 mt-4" style={{ marginLeft: '-50px' }}>
-                    <h3 className="font-weight-bold f-900 ">Tài khoản: Atsh</h3>
+                    <h3 className="font-weight-bold f-900 ">Tài khoản: {userName}</h3>
                     <p class="mb-4">Quản lý, cập nhật đầy đủ thông tin cá nhân để hoạt động tốt hơn trên MEEC!</p>
                     <div class="card card-body card-test bd-none mr-5">
                         <div className="row">
                             <div className="col-md-6 col-12">
+                                <div className="d-flex justify-content-center">
+                                <img className="avatar m-auto" class="rounded-circle" src="assets\images\avatar.jpg" alt="" width="250" />
 
+                                </div>
                             </div>
                             <div className="col-md-6 col-12">
                                 <div className="row mt-4 mr-4">
@@ -41,7 +50,7 @@ export const Profile = () => {
                                                         backgroundColor: '#fff',
                                                         borderLeft: 'none', fontSize: '18px', 
                                                     }}
-                                                    placeholder="Họ và tên"  />
+                                                    placeholder="Họ và tên" value={userName}  />
                                             </div>
                                         </div>
                                     </div>
@@ -61,7 +70,7 @@ export const Profile = () => {
                                                         backgroundColor: '#fff', 
                                                         borderLeft: 'none', fontSize: '18px'
                                                     }}
-                                                    placeholder="Username của bạn" />
+                                                    placeholder="Username của bạn" value={userName} />
                                             </div>
                                         </div>
                                     </div>
@@ -76,12 +85,12 @@ export const Profile = () => {
                                                             borderRight: 'none'
                                                         }}><i class="far fa-envelope pl-1"></i></span>
                                                 </div>
-                                                <input type="text" class="form-control form-custom"
+                                                <input type="text" class="form-control form-custom "
                                                     style={{
                                                         backgroundColor: '#f0f0f0',
                                                         borderLeft: 'none', fontSize: '18px', 
                                                     }}
-                                                    placeholder="Email của bạn" disabled />
+                                                    placeholder="Email của bạn" disabled defaultValue={email} />
                                             </div>
                                         </div>
                                     </div>

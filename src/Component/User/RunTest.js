@@ -1,5 +1,5 @@
 
-import React, { useState, useReducer, useContext } from "react";
+import React, { useState, useReducer, useContext, useEffect } from "react";
 import { Alerterror, Alertsuccess } from "../../Commom";
 import TestContext from "../../Context/TestContext";
 import TestReducers from "../../Reducers/TestReducers";
@@ -35,7 +35,9 @@ export const RunTest = ({
 
     const [state, dispatch] = useReducer(TestReducers, initialState);
     const { currentQuestion, currentAnswer, answers, showResults, error, results } = state;
-
+    const [UserId, setUserId] = useState(0)
+        const UserData = JSON.parse(localStorage.getItem("UserInfor"));
+    const UserID = (UserData.accountId)
     const question = questions[currentQuestion];
 
     const renderError = () => {
@@ -56,6 +58,42 @@ export const RunTest = ({
 
 
     const [Score, setScore] = useState(0);
+    const [showBack, setShowBack] = useState(false);
+
+    const Submit = () => {
+        const arr = [];
+        const arrCorrect = []
+        answers.map(answer => {
+            const question = questions.find(
+                question => question.questionId === answer.questionId
+            );
+            if (question.corectAns === answer.answer) {
+                arr.push({ questionId: question.questionId, answer: answer.answer, ok: true })
+                results.push({ questionId: question.questionId, answer: answer.answer, ok: true })
+                arrCorrect.push({ questionId: question.questionId, answer: answer.snswer })
+            }
+            else {
+                arr.push({ questionId: question.questionId, answer: answer.answer, ok: false })
+                results.push({ questionId: question.questionId, answer: answer.answer, ok: true })
+            }
+        });
+
+        const x = Math.round(arrCorrect.length / questions.length * 100);
+        return (
+            <div className="text-center mt-2">
+                <div className="font-20 f-900">
+                    Chúc mừng bạn đã hoàn thành bài thi của mình!
+                 
+                </div>
+               
+                <div>
+                    <button className="btn bg-c btn-lg mt-4" onClick={e => handleSaveResult(x, arr)}>
+                        Nạp bài thi
+                    </button>
+                </div>
+            </div>
+        )
+    };
 
     const renderResultsData = () => {
         const arr = [];
@@ -75,18 +113,18 @@ export const RunTest = ({
             }
         });
 
-        const x = Math.round(arrCorrect.length / questions.length * 1000) / 100;
+        const x = Math.round(arrCorrect.length / questions.length * 100);
         return (
             <div className="text-center mt-2">
                 <div className="font-20 f-900">
                     Số lượng câu trả lời đúng: {arrCorrect.length}/{questions.length}
                 </div>
                 <div className="font-20 f-900">
-                    Điểm: {x}
+                    Điểm của bạn là: {x} / 100
                 </div>
                 <div>
-                    <button className="btn bg-c btn-lg mt-4" onClick={e => handleSaveResult(x, arr)}>
-                        Nạp bài thi
+                    <button className="btn bg-c btn-lg mt-4" onClick={e => callShow(false)}>
+                        Trở về trang chủ
                     </button>
                 </div>
             </div>
@@ -101,12 +139,11 @@ export const RunTest = ({
         dispatch({ type: SET_RESULT, results });
 
         const obj = {
-            accountId: 2,
+            accountId: UserID,
             testId: testId,
             score: score,
             answers: arr
         }
-        console.log(obj);
         MEEC_RESULT_Save(obj)
     }
 
@@ -215,7 +252,7 @@ export const RunTest = ({
             const response = await TestAPI.submit(obj);
             console.log('Fetch  successfully: ', response);
             Alertsuccess("Nạp bài thành công");
-            callShow(false)
+            setShowBack(true)
             
         } catch (error) {
             Alerterror("Lỗi")
@@ -234,7 +271,7 @@ export const RunTest = ({
             <div className="container results">
                 <div className="element-center card p-4 bx " style={{ backgroundColor: '#c4e8d9' }}>
                     <div className="text-center color-text"><h1 className="f-900 ">Kết quả</h1></div>
-                    <div> {renderResultsData()}</div>
+                    <div> {!showBack ? Submit() : renderResultsData()}</div>
                 </div>
 
 

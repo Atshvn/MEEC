@@ -21,8 +21,6 @@ export const CarouselSubject = ({
             console.log('Failed to fetch: ', error);
         }
     }
-    let { path, url } = useRouteMatch();
-    console.log(url, "id")
     const RenderCourse = () => {
         return Data.map((item, index) => {
            return(

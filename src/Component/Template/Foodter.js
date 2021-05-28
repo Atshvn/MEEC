@@ -53,19 +53,19 @@ export const Foodter = () => {
                         <h6 class="font-weight-bold text-uppercase mt-3 mb-4">MỞ RỘNG</h6>
                         <ul class="list-unstyled">
                             <li class="foodter__li">
-                                <a href="#!">Giới thiệu</a>
+                                <Link to="for-me" >Giới thiệu</Link>
                             </li>
                             <li class="foodter__li">
-                                <a href="#!">Cơ hội nghề nghiệp</a>
+                                <Link to="recruit">Cơ hội nghề nghiệp</Link>
                             </li>
                             <li class="foodter__li">
-                                <a href="#!">Chương trình liên kết</a>
+                                <Link to="contact" href="#!">Liên hệ</Link>
                             </li>
                             <li class="foodter__li">
-                                <a href="#!">Sự kiện</a>
+                                <Link to="/" href="#!">Sự kiện</Link>
                             </li>
                             <li class="foodter__li">
-                                <a href="#!">Chương trình đào tạo mới</a>
+                            <Link to="/" href="#!">Chương trình đào tạo mới</Link>
                             </li>
                         </ul>
                     </div>

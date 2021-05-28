@@ -36,7 +36,23 @@ export const TestAPI = {
     submit:  (data) => {
         const url = '/test/submit';
         return axiosClient.post(url, data);
-    }
+    },
+    getNew :  (params) => {
+        const url = '/test/new/courseid';
+        return axiosClient.get(url, { params });
+    },
+    getOld :  (params) => {
+        const url = '/test/old/courseid';
+        return axiosClient.get(url, { params });
+    },
+    getResult :  (params) => {
+        const url = '/result';
+        return axiosClient.get(url, { params });
+    },
+    checkDone : (params) => {
+        const url = '/test/isdoing';
+        return axiosClient.get(url, { params });
+    },
     // getTestActive: (params) => {
     //     const url = '/test/new';
     //     return axiosClient.get(url, { params });

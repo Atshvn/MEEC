@@ -94,6 +94,12 @@ body {
       background-repeat: no-repeat; /* Do not repeat the image */
       background-size: cover;
   }
+  .for2{
+    background-image: url('../images/bg_review.jpg');
+    background-position: center; /* Center the image */
+    background-repeat: no-repeat; /* Do not repeat the image */
+    background-size: cover;
+}
   p,a, li{
       font-weight: 700;
       font-size: 1rem;
@@ -103,6 +109,19 @@ body {
   }
   .login{
     background: url('../images/login.png') no-repeat center center fixed;
+    background-position: center; /* Center the image */
+    background-repeat: no-repeat; /* Do not repeat the image */
+    background-size: cover;
+    min-height: 100%;
+    min-width: 1024px;
+    width: 100%;
+    height: auto;
+    position: fixed;
+    top: 0;
+    left: 0;
+  }
+  .page404{
+    background: url('../images/404bg.png') no-repeat center center fixed;
     background-position: center; /* Center the image */
     background-repeat: no-repeat; /* Do not repeat the image */
     background-size: cover;
@@ -371,6 +390,21 @@ label, .text-input{
 .bg-d{
     background-color: #f44336;
 }
+.cl-i{
+  color: #4bb5ff;
+}
+.cl-p{
+  color: #fa7a50;
+}
+.cl-w{
+  color: #ffbe55;
+}
+.cl-d{
+  color: #f44336;
+}
+.cl-c{
+  color: #18ce0f;
+}
 .title{
     color: #fff;
 }
@@ -543,4 +577,7 @@ label, .text-input{
 }
 .dropdown-content a:hover{
     background-color: #4bb5ff;
+}
+.bg{
+  background: #F8F9FF;
 }

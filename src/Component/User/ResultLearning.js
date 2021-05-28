@@ -2,14 +2,14 @@ import { TopMenuUser } from "../Template"
 import { SiderBarUser } from "../Template/SiderBarUser"
 import React, { useState, useEffect, useContext } from "react";
 import { TestAPI, CourseAPI } from "../../Service";
-import { Alerterror, Alertsuccess, Alertwarning, FormatDate } from "../../Commom";
+import { Alertsuccess, FormatDate } from "../../Commom";
 import { RunTest } from "./RunTest";
 import { useHistory } from "react-router";
+import { timers } from "jquery";
 // import { store } from "../../Store/store";
 
-export const MainUser = () => {
-    const history = useHistory();
-    const UserData = JSON.parse(localStorage.getItem("UserInfor"));
+export const ResultLearning = () => {
+    const history = useHistory()
     useEffect(() => {
         document.querySelector(".main-header").classList.add("display-none");
         document.querySelector(".main-foodter").classList.add("display-none");
@@ -17,11 +17,11 @@ export const MainUser = () => {
     
     useEffect(() => {
         const UserData = JSON.parse(localStorage.getItem("UserInfor"));
-        MEEC_Test_List(UserData.courseId);
-        MEEC_Test_List_Actived(UserData.courseId);
+        MEEC_Result_List(UserData.accountId);
         
     }, [])
-  
+    const UserData = JSON.parse(localStorage.getItem("UserInfor"));
+    const countID = UserData.courseId;
     // const globalState = useContext(store);
     // const { dispatch } = globalState;
 
@@ -36,29 +36,31 @@ export const MainUser = () => {
     const [dataQuestion, setDataQuestion] = useState([])
     const [dataActived, setDataActived] = useState([])
     const filterItem = (data, item) => {
-        return data.filter(i => i.courseId === item);
+        return data.filter(i => i.testId === item);
     }
 
     const callShow = (value) =>{
         setShowTest(value)
     }
     //#region List
-    const MEEC_Test_List = async (idc) => {
+    const MEEC_Result_List = async (idc) => {
+
         try {
             //const params = { _page: 1, _limit: 10 };
-            const response = await CourseAPI.getAll();
+            const response = await TestAPI.getByCourse(countID);
             setDataCourse(response)
             try {
-                const response2 = await TestAPI.getNew({courseId: idc});
-                console.log(response2);
+                const response2 = await TestAPI.getResult({accId: idc});
                 const newData = response2.map(item => {
-                    const itemNew = filterItem(response, item.courseId);
-                    const Status = item.state ? "Chưa thi" : "Đã thi";
+                    const itemNew = filterItem(response, item.testId);
                     return {
                         ...item,
-                        courseName: itemNew[0].name,
-                        dateTest: FormatDate(item.dateTest),
-                        Status: Status
+                        testName: itemNew[0].testName,
+                        testTime: itemNew[0].time,
+                        totalQuestion: itemNew[0].totalQuestion,
+                        dateTest: FormatDate(itemNew[0].dateTest),
+                        date: FormatDate(date),
+                        listQuestion: itemNew[0].listQuestions
                     }
                 })
                 setData([...newData])
@@ -69,81 +71,55 @@ export const MainUser = () => {
             console.log('Failed to fetch: ', error);
         }
     }
-     //#region List
-     const MEEC_Test_List_Actived = async (idc) => {
-        try {
-            //const params = { _page: 1, _limit: 10 };
-            const response = await CourseAPI.getAll();
-            setDataCourse(response)
-            try {
-                const response2 = await TestAPI.getOld({courseId: idc});
-                console.log(response2);
-                const newData = response2.map(item => {
-                    const itemNew = filterItem(response, item.courseId);
-                    const Status = item.state ? "Chưa thi" : "Đã thi";
-                    return {
-                        ...item,
-                        courseName: itemNew[0].name,
-                        dateTest: FormatDate(item.dateTest),
-                        Status: Status
-                    }
-                })
-                setDataActived([...newData])
-            } catch (error) {
-                console.log('Failed to fetch: ', error);
-            }
-        } catch (error) {
-            console.log('Failed to fetch: ', error);
-        }
-    }
-
-    const ListTest = () => {
+   
+console.log(data)
+    const ListResult = () => {
         return (
           data.length > 0 ?  data.map((item, index) => {
-                setTime(item.time)
-                setTestID(item.testId);
-                const x = filterItem(DataCourse, item.courseId)
-
                 return (
                     <div className="col-md-6" key={index}>
                         <div class="card card-body card-test">
-                            <h4 class="card-title f-900">{item.testName}</h4>
+                            <h4 class="card-title f-900">Bài thi: {item.testName}</h4>
                             <p class=" row">
-                                <span className="col-md-12">Khóa học: {x[0].name} </span>
-                                <span className="col-md-12">Ngày thi: {item.dateTest}</span>
+                                <span className="col-md-6">Ngày thi: {item.dateTest}</span>
+                                <span className="col-md-6">Tổng điểm: {item.score} / 100</span>
                                 <span className="col-md-6">Số lượng câu: {item.totalQuestion}</span>
-                                <span className="col-md-6">Thời gian: {item.time} phút</span>
+                                <span className="col-md-6">Thời gian: {item.testTime} phút</span>
                             </p>
-                            <button class="btn bg-i font-15" onClick={e => CheckDone(item.listQuestions, item.testId)}>Vào thi</button>
+                            <button class="btn bg-w font-15" onClick={e => StartTest(item.listQuestions)}>Chi tiết kết quả</button>
                         </div>
                     </div>
                 )
             }) : <div className="col-md-12"><p className="text-center font-20"> Không có bài thi nào đang diễn ra</p></div>
         )
     }
-    const ListTestActived = () => {
-        return (
-            dataActived.map((item, index) => {
-                const x = filterItem(DataCourse, item.courseId)
+    // const ListTestActived = () => {
+    //     return (
+    //         dataActived.map((item, index) => {
+    //             const x = filterItem(DataCourse, item.courseId)
 
-                return (
-                    <div className="col-md-6" key={index}>
-                        <div class="card card-body card-test">
-                            <h4 class="card-title f-900">{item.testName}</h4>
-                            <p class=" row">
-                                <span className="col-md-12">Khóa học: {x[0].name} </span>
-                                <span className="col-md-12">Ngày thi: {item.dateTest}</span>
-                                <span className="col-md-6">Số lượng câu: {item.totalQuestion}</span>
-                                <span className="col-md-6">Thời gian: {item.time} phút</span>
-                            </p>
-                            <button class="btn bg-d font-15">Đã hết thời gian</button>
-                        </div>
-                    </div>
-                )
-            })
-        )
-    }
-    const CheckDone = async (data, id) => {
+    //             return (
+    //                 <div className="col-md-6" key={index}>
+    //                     <div class="card card-body card-test">
+    //                         <h4 class="card-title f-900">{item.testName}</h4>
+    //                         <p class=" row">
+    //                             <span className="col-md-12">Khóa học: {x[0].testName} </span>
+    //                             <span className="col-md-12">Ngày thi: {item.dateTest}</span>
+    //                             <span className="col-md-6">Số lượng câu: {item.totalQuestion}</span>
+    //                             <span className="col-md-6">Thời gian: {item.time} phút</span>
+    //                         </p>
+    //                         <button class="btn bg-d font-15">Đã hết thời gian</button>
+    //                     </div>
+    //                 </div>
+    //             )
+    //         })
+    //     )
+    // }
+
+
+
+    const StartTest = (data) => {
+        setShowTest(true)
         const datanew = data.map(i => {
             return {
                 ...i,
@@ -156,18 +132,7 @@ export const MainUser = () => {
             }
         })
         setDataQuestion(datanew)
-        try {
-        const response2 = await TestAPI.checkDone({accId: UserData.accountId, testId: id});
-         if(response2 !== "NotDone"){
-            Alertwarning("Bạn đã hoàn thành bài thi này!")
-         }else{
-            setShowTest(true)
-         }
-        } catch (error) {
-            console.log('Failed to fetch: ', error);
-        }
     }
-
 
     // const RenderHeader = () => {
     //     return dataQuestion.map((item, index) => {
@@ -228,8 +193,8 @@ export const MainUser = () => {
                         <SiderBarUser />
                     </div>
                     <div className="col-md-8 col-12 mt-4" style={{ marginLeft: '-50px' }}>
-                        <h3 className=" f-900">Khu vực thi cử</h3>
-                        <p>Các bài thi của lớp học sẽ được hiển thị dưới đây</p>
+                        <h3 className=" f-900">Khu vực kết quả học tập</h3>
+                        <p>Kết quả của các bài thi sẽ được hiển thị dưới đây</p>
                         <div className="row">
                             <div className="col-md-10 col-12">
                                 <div class="card-box " style={{ backgroundColor: '#F8F9FF', border: 'none !important' }}>
@@ -238,33 +203,23 @@ export const MainUser = () => {
                                         <li class="nav-item nav-default pl-0 ">
                                             <a href="#home-b1" data-toggle="tab" aria-expanded="false" class="nav-link active">
                                                 <span class="d-block d-sm-none"><i class="mdi mdi-home-variant-outline "></i></span>
-                                                <span class="d-none d-sm-block font-18">Đang diễn ra</span>
+                                                <span class="d-none d-sm-block font-18">Danh sách kết quả</span>
                                             </a>
                                         </li>
                                         
-                                        <li class="nav-item nav-default">
-                                            <a href="#messages-b1" data-toggle="tab" aria-expanded="false" class="nav-link">
-                                                <span class="d-block d-sm-none"><i class="mdi mdi-email-outline "></i></span>
-                                                <span class="d-none d-sm-block font-18">Đã kết thúc</span>
-                                            </a>
-                                        </li>
+                                      
 
                                     </ul>
 
                                     <div class="tab-content">
                                         <div class="tab-pane show active" id="home-b1">
                                             <div className="row">
-                                                <ListTest />
+                                                <ListResult />
 
                                             </div>
                                         </div>
                                         
-                                        <div class="tab-pane" id="messages-b1">
-                                            <div className="row">
-                                            <ListTestActived/>
-                                                
-                                            </div>
-                                        </div>
+                                        
                                     </div>
                                 </div>
                             </div>
