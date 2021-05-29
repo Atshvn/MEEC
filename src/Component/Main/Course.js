@@ -1,5 +1,6 @@
 import { CarouselSubject,  Partner } from "./Chil"
 import React, { useEffect } from "react";
+import { Messenger } from "../../Commom";
 export const Course = () => {
     useEffect(() => {
         document.querySelector(".main-header").classList.remove("display-none");
@@ -48,6 +49,7 @@ export const Course = () => {
                 </div>
             </div>
             <Partner />
+            <Messenger/>
         </>
     )
 }

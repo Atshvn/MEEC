@@ -1,12 +1,13 @@
 import { Demo, Home, Course, Course1 , Course3 , Course4, Course5, Course6 , Course2, Contact, Recruit, RecruitDetail, ForMe} from '../Component/Main';
 import { Foodter, TopMenuClient} from '../Component/Template'
 import { Route, Switch, BrowserRouter, Redirect } from 'react-router-dom';
-import { ForgotPass, Login , Page404, Signup} from '../Component/System';
+import { ForgotPass, Login , Page404, Signup, LoginAdmin} from '../Component/System';
 import { MainUser, Mid, Profile, ResultLearning } from '../Component/User';
 import { HomeAdmin, Question, TestManager } from '../Component/Admin';
 import { CourseManage } from '../Component/Admin/CourseManage';
 import ScrollToTop from '../Commom/ScrollToTop';
 import { PrivateRoute } from './PrivateRoute';
+import { AdminRoute } from './AdminRoute';
 export const Routers = () => {
    
     return (
@@ -18,11 +19,11 @@ export const Routers = () => {
                 <Route exact path="/login" component={Login}/>
                 <Route exact path="/signup" component={Signup}/>
                 <Route exact path="/forgot-password" component={ForgotPass}/>
-                <Route exact path="/demo" component={Demo} />
+                {/* <Route exact path="/demo" component={Demo} /> */}
                 <PrivateRoute exact path="/main" component={MainUser} />
-                <Route exact path="/profile" component={Profile} />
+                <PrivateRoute exact path="/profile" component={Profile} />
                 <Route exact path="/mid" component={Mid} />
-                <Route exact path="/result" component={ResultLearning} />
+                <PrivateRoute exact path="/result" component={ResultLearning} />
                 <Route exact path="/course" component={Course} />
                 <Route exact path="/course1" component={Course1} />
                 <Route exact path="/course2" component={Course2} />
@@ -34,10 +35,12 @@ export const Routers = () => {
                 <Route exact path="/recruit" component={Recruit} />
                 <Route exact path="/recruit-detail" component={RecruitDetail} />
                 <Route exact path="/for-me" component={ForMe} />
-                <Route exact path="/admin-main" component={HomeAdmin} />
-                <Route exact path="/admin-question" component={Question} />
-                <Route exact path="/admin-test" component={TestManager} />
-                <Route exact path="/admin-course" component={CourseManage} />
+
+                {/* <Route exact path="/admin" component={LoginAdmin}/>
+                <AdminRoute exact path="/admin-main" component={HomeAdmin} />
+                <AdminRoute exact path="/admin-question" component={Question} />
+                <AdminRoute exact path="/admin-test" component={TestManager} />
+                <AdminRoute exact path="/admin-course" component={CourseManage} /> */}
 
                 <Route exact component={Page404}/>
             </Switch>

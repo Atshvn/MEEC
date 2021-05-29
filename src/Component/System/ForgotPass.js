@@ -11,6 +11,20 @@ export const ForgotPass = () => {
         document.querySelector(".main-header").classList.add("display-none");
         document.querySelector(".main-foodter").classList.add("display-none");
     }, [])
+    
+    useEffect(() => {
+        const eventEnter = (e) => {
+            if(e.key === "Enter" || e.key === "NumpadEnter"){
+                document.querySelector("#click").click();
+                e.preventDefault();
+            }
+        }
+        document.addEventListener("keydown",eventEnter)
+        return () => {
+            document.removeEventListener("keydown",eventEnter)
+        }
+            
+    }, [])
     const [Email, setEmail] = useState("")
     const emailRef = useRef();
     const handleForgot = async () => {
@@ -19,7 +33,6 @@ export const ForgotPass = () => {
             emailRef.current.focus();
             return;
         }
-      
         try {
             //const params = { _page: 1, _limit: 10 };
             const response = await SystemAPI.forgot({email:Email});
@@ -70,7 +83,7 @@ export const ForgotPass = () => {
                                 </div>
                             </div>
                             <div>
-                                <button type="button" onClick={handleForgot} class="btn btn-success w-100 mb-3 font-1rem pt-2 pb-2">Reset lại mật khẩu</button>
+                                <button type="button" id="click" onClick={handleForgot} class="btn btn-success w-100 mb-3 font-1rem pt-2 pb-2">Reset lại mật khẩu</button>
 
                             </div>
                             <div className="font-1rem" >

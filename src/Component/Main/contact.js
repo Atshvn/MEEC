@@ -1,6 +1,7 @@
 import { CarouselSubject, Partner } from "./Chil"
 import React, { useEffect } from "react";
 import SimpleMap from "../../Commom/Map";
+import { Messenger } from "../../Commom";
 export const Contact = () => {
     useEffect(() => {
         document.querySelector(".main-header").classList.remove("display-none");
@@ -115,6 +116,7 @@ export const Contact = () => {
             <SimpleMap/>
             </div>
             <Partner />
+            <Messenger/>
         </>
     )
 }

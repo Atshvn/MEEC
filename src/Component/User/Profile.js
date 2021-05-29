@@ -20,8 +20,13 @@ export const Profile = () => {
         setUserName(UserData.fullName)
         setCourseID(UserData.courseId)
         setNumberPhone(UserData.phoneNumber)
-        const x = DataGender.find(i => i.label == UserData.gender)
-        console.log(x);
+        const list = [
+            { value: 0, label: "Vui lòng chọn" },
+            { value: 1, label: "Nam" },
+            { value: 2, label: "Nữ" },
+            { value: 3, label: "Khác" }
+        ]
+        const x = list.find(i => i.label == UserData.gender)
         setGender(x ? x : { value: 0, label: "Vui lòng chọn" })
         setAddress(UserData.address)
         setDateofBirth(new Date(FormatDate(UserData.dateOfBirth, 0)));
@@ -35,12 +40,13 @@ export const Profile = () => {
         ]
         setDataGender(list)
     }
+    const UserInfor = JSON.parse(localStorage.getItem("UserInfor"));
     const [email, setEmail] = useState("");
 
     const [userName, setUserName] = useState("")
     const userRef = useRef();
 
-    const [Gender, setGender] = useState("")
+    const [Gender, setGender] = useState({ value: 0, label: "Vui lòng chọn" })
     const [DataGender, setDataGender] = useState([])
 
     const [NumberPhone, setNumberPhone] = useState("")
@@ -84,6 +90,18 @@ export const Profile = () => {
         try {
             const response = await SystemAPI.put(obj);
             Alertsuccess("Cập nhật thông tin thành công")
+            const res = {
+                accountId: UserInfor.accountId,
+                address: Address,
+                courseId: UserInfor.courseId,
+                dateOfBirth: FormatDate2(DateofBirth),
+                email: email,
+                fullName: userName,
+                gender: Gender.label,
+                phoneNumber: +(('' + NumberPhone).replace('0', ''))
+            }
+            localStorage.setItem("UserInfor", JSON.stringify(res));
+
         } catch (error) {
             Alerterror("Thông tin lỗi")
             console.log(error);

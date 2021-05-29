@@ -77,7 +77,7 @@ export const TestManager = () => {
         }
     }
     const MEEC_Test_List_ByCourse = async () => {
-       console.log(CourseSearch)
+        console.log(CourseSearch)
         try {
             const response = await TestAPI.getByCourse(CourseSearch);
             const newData = response.map(item => {
@@ -97,10 +97,10 @@ export const TestManager = () => {
     }
     const HandleList = () => {
         setData([])
-        if(CourseSearch === 0){
+        if (CourseSearch === 0) {
             return MEEC_Test_List();
         }
-        else{
+        else {
             return MEEC_Test_List_ByCourse();
         }
     }
@@ -295,7 +295,7 @@ export const TestManager = () => {
         MEEC_Test_View(item.row._original)
     }
     const clickDelete = (item) => {
-  
+
         MEEC_Test_Delete(item.row._original.testId);
     }
     const clickexcel = () => {

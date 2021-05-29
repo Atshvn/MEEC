@@ -8,24 +8,10 @@ import { useHistory } from "react-router-dom";
  import { store } from "../../Store/store";
 
 
-export const Login = () => {
+export const LoginAdmin = () => {
     useEffect(() => {
         document.querySelector(".main-header").classList.add("display-none");
         document.querySelector(".main-foodter").classList.add("display-none");
-    }, [])
-    
-    useEffect(() => {
-        const eventEnter = (e) => {
-            if(e.key === "Enter" || e.key === "NumpadEnter"){
-                document.querySelector("#click").click();
-                e.preventDefault();
-            }
-        }
-        document.addEventListener("keydown",eventEnter)
-        return () => {
-            document.removeEventListener("keydown",eventEnter)
-        }
-            
     }, [])
     const globalState = useContext(store);
     const { dispatch } = globalState;
@@ -57,16 +43,17 @@ export const Login = () => {
                 Alerterror("Tên đăng nhập hoặc mật khẩu không đúng");
                 return;
             }
+            if(response.roleId === 2){
+                Alerterror("Bạn không có quyền sử dụng chức năng này");
+                return;
+            }
             else{
                 Alertsuccess("Đăng nhập thành công");
-                
-                localStorage.setItem("UserInfor", JSON.stringify(response));
-                const userInfor = JSON.parse(localStorage.getItem("UserInfor"));
-                dispatch({ type: 'SET_USERINFO',  userInfor })
-                history.push("/mid");
-
+                localStorage.setItem("AdminInfor", JSON.stringify(response));
+                // const userInfor = JSON.parse(localStorage.getItem("UserInfor"));
+                // dispatch({ type: 'SET_USERINFO',  userInfor });
+                history.push("/admin-main");
             }
-           
             
         } catch (error) {
             Alerterror("Lỗi")
@@ -77,27 +64,27 @@ export const Login = () => {
 
     return (
         <div class="container-fluid ">
-            <div className="login">
+            <div className="login-admin">
                 <div className="row ">
                     <div className="col-md-8 col-12 pull-right ">
                     </div>
                     <div className="col-md-4 col-12 login-form pr-5 pl-5" >
                         <div className="main-login " >
-                            <div className="pt-5 pb-5">
+                            <div className="pt-5 pb-5 text-center">
                                 <Link to="/">
                                     <img class="logo" style={{ marginLeft: '-30px' }} src={logo} alt="" />
                                 </Link>
                             </div>
                             <div className="pb-3">
                                 <h2 style={{ fontWeight: '900' }}>Đăng nhập vào MEEC</h2>
-                                <p style={{ fontSize: '1rem', fontWeight: '500' }}>Học tập, thi online, xem điểm và thảo luận cùng hơn 10000 thành viên khác trong cộng đồng MEEC</p>
+                                <p >Hệ thống quản lý thành viên của Master Easy English Center</p>
                             </div>
                             <div class="form-group">
                                 <div class="input-group">
                                     <div class="input-group-prepend ">
                                         <span class="input-group-text"><i class="far fa-envelope"></i></span>
                                     </div>
-                                    <input type="text" class="form-control form-custom" placeholder="Email của bạn" autoComplete="true"
+                                    <input type="text" class="form-control form-custom" placeholder="Email" autoComplete="true"
                                     value={userName} ref={userNameRef} onChange={e => setUserName(e.target.value)} />
                                 </div>
                             </div>
@@ -110,15 +97,13 @@ export const Login = () => {
                                     value={passWord} ref={passWordRef} onChange={e => setpassWord(e.target.value)} />
                                 </div>
                             </div>
-                            <div className="font-1rem mb-3" style={{ textDecoration: 'underline' }}>
-                                <Link to="/forgot-password"> Quên mật khẩu?</Link>
-                            </div>
+                           
                             <div>
-                                <button id="click"  onClick={handleLogin} class="btn btn-success w-100 mb-3 font-1rem pt-2 pb-2">Đăng nhập vào MEEC</button>
+                                <button  onClick={handleLogin} class="btn btn-secondary w-100 mb-3 font-1rem pt-2 pb-2">Đăng nhập vào MEEC</button>
                             </div>
                             <div className="font-1rem" >
-                                Bạn chưa có tài khoản MEEC?
-                                <Link to="signup" className="text-success font-weight-bold pointer" > Đăng ký</Link>
+                                Bạn là học viên của MEEC?
+                                <Link to="login" className="text-secondary font-weight-bold pointer" > Đăng nhập</Link>
                             </div>
                         </div>
                         

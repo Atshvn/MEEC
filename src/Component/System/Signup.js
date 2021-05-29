@@ -12,6 +12,20 @@ export const Signup = () => {
         document.querySelector(".main-header").classList.add("display-none");
         document.querySelector(".main-foodter").classList.add("display-none");
     }, [])
+    
+    useEffect(() => {
+        const eventEnter = (e) => {
+            if(e.key === "Enter" || e.key === "NumpadEnter"){
+                document.querySelector("#click").click();
+                e.preventDefault();
+            }
+        }
+        document.addEventListener("keydown",eventEnter)
+        return () => {
+            document.removeEventListener("keydown",eventEnter)
+        }
+            
+    }, [])
 
     const [CountID, setCountID] = useState(0)
     const [userName, setUserName] = useState("")
@@ -113,7 +127,7 @@ export const Signup = () => {
                                 </div>
                             </div>
                             <div>
-                                <button type="button" class="btn btn-success w-100 mb-3 font-1rem pt-2 pb-2"
+                                <button id="click" type="button" class="btn btn-success w-100 mb-3 font-1rem pt-2 pb-2"
                                 onClick={handleSignUp}>Nhận tài khoản qua email</button>
                             </div>
                             <div className="font-1rem" >

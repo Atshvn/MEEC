@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom"
 
 export const Intro = () => {
     const name= `Master Easy English Center`
@@ -20,7 +21,7 @@ export const Intro = () => {
                         MEEC đã chắp cánh ước mơ Anh Ngữ, tạo tiền đề cho hơn 30.000 ngàn học viên tốt nghiệp và
                         có được nhiều cơ hội mới trong sự nghiệp. Đạt được những thành tựu đó, Athena đã luôn đi theo triết lý
                     “Học thật - Thi thật” trong từng bài giảng, nhằm rèn luyện cho học viên tinh thần tự giác và trách nhiệm trong học tập.</p>
-                        <a href="#!" type="button" class=" p-2 pr-5 pl-5  btn btn-lg btn-success btn-rounded waves-effect width-md waves-light mb-3">Xem thêm</a>
+                        <Link to="/for-me" type="button" class=" p-2 pr-5 pl-5  btn btn-lg btn-success btn-rounded waves-effect width-md waves-light mb-3">Xem thêm</Link>
 
                     </div>
                     <div className="col-md-6 col-12">

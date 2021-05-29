@@ -2,6 +2,7 @@ import { CarouselSubject, Partner } from "./Chil"
 import React, { useEffect } from "react";
 import SimpleMap from "../../Commom/Map";
 import { Link } from "react-router-dom";
+import { Messenger } from "../../Commom";
 export const ForMe = () => {
     useEffect(() => {
         document.querySelector(".main-header").classList.remove("display-none");
@@ -225,6 +226,7 @@ export const ForMe = () => {
             </div>
 
             <Partner />
+            <Messenger/>
         </>
     )
 }

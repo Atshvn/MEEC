@@ -26,7 +26,7 @@ export const TopMenuClient = () => {
             setLink('/login')
             setName('GÓC HỌC VIÊN')
         } else {
-            setLink('/main')
+            setLink('/mid')
             setName(UserData.fullName)
         }
 

@@ -5,4 +5,5 @@ export * from './ExportExcel';
 export * from './FormatDateJson';
 export * from './FormatDate';
 export * from './FormatDate2';
-export * from './ScrollToTop'
+export * from './ScrollToTop';
+export * from './Messenger';
