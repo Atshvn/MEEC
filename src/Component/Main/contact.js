@@ -116,7 +116,6 @@ export const Contact = () => {
             <SimpleMap/>
             </div>
             <Partner />
-            <Messenger/>
         </>
     )
 }

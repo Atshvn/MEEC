@@ -141,7 +141,6 @@ export const Recruit = () => {
                 </div>
             </div>
             <Partner />
-            <Messenger/>
         </>
     )
 }

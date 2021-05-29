@@ -49,7 +49,6 @@ export const Course = () => {
                 </div>
             </div>
             <Partner />
-            <Messenger/>
         </>
     )
 }

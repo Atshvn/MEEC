@@ -226,7 +226,6 @@ export const ForMe = () => {
             </div>
 
             <Partner />
-            <Messenger/>
         </>
     )
 }

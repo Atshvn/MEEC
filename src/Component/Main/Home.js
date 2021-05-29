@@ -1,7 +1,7 @@
 import { Banner, CarouselSubject, Intro, Partner, Review } from "./Chil"
 import React, { useState, useEffect, useRef } from "react";
 import { CourseAPI } from "../../Service";
-
+import { Messenger } from "../../Commom";
 export const Home = () => {
     useEffect(() => {
         document.querySelector(".main-header").classList.remove("display-none");

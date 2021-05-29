@@ -79,7 +79,6 @@ export const RecruitDetail = () => {
                 </div>
             </div>
             <Partner />
-            <Messenger/>
         </>
     )
 }

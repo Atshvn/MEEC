@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom'
+import { Messenger } from '../../Commom'
 import logo from '../../logo2.png'
 
 export const Foodter = () => {
@@ -100,6 +101,7 @@ export const Foodter = () => {
             <a href="https://mdbootstrap.com/"> MEEC - Master Easy English Center</a>
             </div>
             </div>
+            <Messenger/>
         </footer>
     )
 }
