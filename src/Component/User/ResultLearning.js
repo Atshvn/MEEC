@@ -14,11 +14,11 @@ export const ResultLearning = () => {
         document.querySelector(".main-header").classList.add("display-none");
         document.querySelector(".main-foodter").classList.add("display-none");
     }, [])
-    
+
     useEffect(() => {
         const UserData = JSON.parse(localStorage.getItem("UserInfor"));
         MEEC_Result_List(UserData.accountId);
-        
+
     }, [])
     const UserData = JSON.parse(localStorage.getItem("UserInfor"));
     const countID = UserData.courseId;
@@ -39,9 +39,6 @@ export const ResultLearning = () => {
         return data.filter(i => i.testId === item);
     }
 
-    const callShow = (value) =>{
-        setShowTest(value)
-    }
     //#region List
     const MEEC_Result_List = async (idc) => {
 
@@ -50,7 +47,7 @@ export const ResultLearning = () => {
             const response = await TestAPI.getByCourse(countID);
             setDataCourse(response)
             try {
-                const response2 = await TestAPI.getResult({accId: idc});
+                const response2 = await TestAPI.getResult({ accId: idc });
                 const newData = response2.map(item => {
                     const itemNew = filterItem(response, item.testId);
                     return {
@@ -71,11 +68,10 @@ export const ResultLearning = () => {
             console.log('Failed to fetch: ', error);
         }
     }
-   
-console.log(data)
+
     const ListResult = () => {
         return (
-          data.length > 0 ?  data.map((item, index) => {
+            data.length > 0 ? data.map((item, index) => {
                 return (
                     <div className="col-md-6" key={index}>
                         <div class="card card-body card-test">
@@ -86,41 +82,18 @@ console.log(data)
                                 <span className="col-md-6">Số lượng câu: {item.totalQuestion}</span>
                                 <span className="col-md-6">Thời gian: {item.testTime} phút</span>
                             </p>
-                            <button class="btn bg-w font-15" onClick={e => StartTest(item.listQuestions)}>Chi tiết kết quả</button>
+                            <button class="btn bg-w font-15" onClick={e => showResultDetail(item, item.detailResults, item.listQuestion)}>Chi tiết kết quả</button>
                         </div>
                     </div>
                 )
-            }) : <div className="col-md-12"><p className="text-center font-20"> Không có bài thi nào đang diễn ra</p></div>
+            }) : <div className="col-md-12"><p className="text-center font-20"> Bạn chưa thực hiện bài thi nào!!!</p></div>
         )
     }
-    // const ListTestActived = () => {
-    //     return (
-    //         dataActived.map((item, index) => {
-    //             const x = filterItem(DataCourse, item.courseId)
-
-    //             return (
-    //                 <div className="col-md-6" key={index}>
-    //                     <div class="card card-body card-test">
-    //                         <h4 class="card-title f-900">{item.testName}</h4>
-    //                         <p class=" row">
-    //                             <span className="col-md-12">Khóa học: {x[0].testName} </span>
-    //                             <span className="col-md-12">Ngày thi: {item.dateTest}</span>
-    //                             <span className="col-md-6">Số lượng câu: {item.totalQuestion}</span>
-    //                             <span className="col-md-6">Thời gian: {item.time} phút</span>
-    //                         </p>
-    //                         <button class="btn bg-d font-15">Đã hết thời gian</button>
-    //                     </div>
-    //                 </div>
-    //             )
-    //         })
-    //     )
-    // }
-
-
-
-    const StartTest = (data) => {
+    const [getItem, setGetItem] = useState({})
+    const [getFinal, setGetFinal] = useState([])
+    const showResultDetail = (item, result, ques) => {
         setShowTest(true)
-        const datanew = data.map(i => {
+        const datanew = ques.map((i, index) => {
             return {
                 ...i,
                 content: i.content.trim(),
@@ -129,61 +102,91 @@ console.log(data)
                 answerC: i.answerC.trim(),
                 answerD: i.answerD.trim(),
                 corectAns: i.corectAns.trim(),
+                selectedAns: result[index].selectedAns.trim(),
+                OK: result[index].ok
             }
         })
-        setDataQuestion(datanew)
+        setGetItem(item);
+        setGetFinal(datanew)
+
+    }
+    console.log(getFinal);
+    const RenderData = () => {
+        return (
+            <>
+                <div className="col-12">
+                    <div className="row  text-center">
+                        <div className="col-12 col-md-6"><p className="font-18 m-0">Học viên: {UserData.fullName}</p></div>
+                        <div className="col-12 col-md-4"><p className="font-18 m-0 card-text">Bài thi: {getItem.testName}</p></div>
+                        <div className="col-12 col-md-6"><p className="font-18 m-0">Ngày thi: {getItem.dateTest}</p></div>
+                        <div className="col-12 col-md-4"><p className="font-18 m-0">Tổng điểm: {getItem.score} / 100</p></div>
+                        <div className="col-12 col-md-6"><p className="font-18 m-0">Số lượng câu: {getItem.totalQuestion}</p></div>
+                        <div className="col-12 col-md-4"><p className="font-18 m-0">Thời gian: {getItem.testTime} phút</p></div>
+                    </div>
+                    <div className="row mt-4">
+                        <div className="col-md-12 mb-2">
+                            <div className="row">
+                                <div className="col-md-2"><p className="m-0 font-14 cl-d"><i>Chú thích: <sup>(*)</sup> </i></p></div>
+                                <div className="col-md-4 d-flex align-items-center">
+                                    <div className="bg-c mr-4" style={{ width: '50px', height: '20px' }}></div>
+                                    <div><p className="m-0 font-14">Đáp án đúng và câu trả lời đúng</p></div>
+                                </div>
+                                <div className="col-md-4 d-flex align-items-center">
+                                    <div className="bg-d mr-4" style={{ width: '50px', height: '20px' }}></div>
+                                    <div><p className="m-0 font-14">Đáp án sai</p></div>
+                                </div>
+                            </div>
+                        </div>
+                        {getFinal.map((i, index) => {
+                            let Correct = i.corectAns;
+                            let repply = i.selectedAns;
+                            if (i.OK) {
+
+                            }
+                            const AddClass = (ans) => {
+
+                                if (i.OK && repply == ans) {
+                                    return " pr-5 btn bg-c color-text w-100 f-700  font-16";
+                                }
+                                if (i.OK && repply != ans) {
+                                    return " pr-5 btn  color-text w-100 f-700  font-16";
+                                }
+                                if (!i.OK && repply == ans && Correct != ans) {
+                                    return " pr-5 btn bg-d color-text w-100 f-700  font-16";
+                                }
+                                if (!i.OK && Correct == ans) {
+                                    return " pr-5 btn bg-c color-text w-100 f-700  font-16";
+                                }
+                                else {
+                                    return " pr-5 btn  color-text w-100 f-700  font-16";
+                                }
+                            }
+                            return (
+                                <div className={i.OK ? "col-12 col-md-12 pl-4 pb-3 pt-2 bg-c2 mb-1" : "col-12 col-md-12 pl-4 bg-d2 pb-3 pt-2  mb-1"}>
+                                    <p className="m-0 font-18"> Câu {index + 1}: {i.content}</p>
+                                    <div className="row mt-2">
+                                        <div className="col-md-3">
+                                            <span className={AddClass(i.answerA)}>A. {i.answerA}</span>
+                                        </div>
+                                        <div className="col-md-3">
+                                            <span className={AddClass(i.answerB)}>B. {i.answerB}</span>
+                                        </div>
+                                        <div className="col-md-3">
+                                            <span className={AddClass(i.answerC)}>C. {i.answerC}</span>
+                                        </div>
+                                        <div className="col-md-3">
+                                            <span className={AddClass(i.answerD)}>D. {i.answerD}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            )
+                        })}
+                    </div>
+                </div>
+            </>
+        )
     }
 
-    // const RenderHeader = () => {
-    //     return dataQuestion.map((item, index) => {
-    //         return (
-    //             <div key={index} className="p-2 pl-4">
-    //                 <a href={`#no${index}`}> Câu {index + 1}</a>
-    //             </div>
-    //         )
-    //     })
-    // }
-    // const arr = []
-    // const [arrResult, setArrResult] = useState([])
-    // const HandleChange = (e, id) => {
-    //     const { name, value } = e.target;
-    //     const obj = { questionId: id, result: value }
-    //     console.log(obj);
-    //     arr.push(obj)
-    //     console.log(arr);
-    // }
-
-    // const handleSubmit = () => {
-    //     console.log(arr);
-    // }
-    // const RenderQuestion = () => {
-    //     return dataQuestion.map((item, index) => {
-    //         return (
-    //             <div key={index} className=" mt-5" id={`no${index}`}>
-    //                 <h5 className="f-900">{index + 1}. {item.content}</h5>
-    //                 <div className="row form-group ml-3">
-    //                     <div className="col-md-3 custom-control custom-radio">
-    //                         <input class="custom-control-input" value={item.answerA} type="radio" id={"customRadio1" + index} name={"customRadio" + index} onChange={e => HandleChange(e, item.questionId)} />
-    //                         <label for={"customRadio1" + index} class="custom-control-label">A. {item.answerA}</label>
-    //                     </div>
-    //                     <div className="col-md-3 custom-control custom-radio">
-    //                         <input class="custom-control-input" value={item.answerB} type="radio" id={"customRadio2" + index} name={"customRadio" + index} onChange={e => HandleChange(e, item.questionId)} />
-    //                         <label for={"customRadio2" + index} class="custom-control-label">B. {item.answerB}</label>
-    //                     </div>
-    //                     <div className="col-md-3 custom-control custom-radio">
-    //                         <input  class="custom-control-input" value={item.answerC} type="radio" id={"customRadio3" + index} name={"customRadio" + index} onChange={e => HandleChange(e, item.questionId)} />
-    //                         <label for={"customRadio3" + index} class="custom-control-label">C. {item.answerC}</label>
-    //                     </div>
-    //                     <div className="col-md-3 custom-control custom-radio">
-    //                         <input  class="custom-control-input" value={item.answerD} type="radio" id={"customRadio4" + index} name={"customRadio" + index} onChange={e => HandleChange(e, item.questionId)} />
-    //                         <label for={"customRadio4" + index} class="custom-control-label">D. {item.answerD}</label>
-    //                     </div>
-    //                 </div>
-    //             </div>
-
-    //         )
-    //     })
-    // }
     return (
         < >
             <div className={showTest ? "display-none" : ""}>
@@ -206,8 +209,8 @@ console.log(data)
                                                 <span class="d-none d-sm-block font-18">Danh sách kết quả</span>
                                             </a>
                                         </li>
-                                        
-                                      
+
+
 
                                     </ul>
 
@@ -218,8 +221,8 @@ console.log(data)
 
                                             </div>
                                         </div>
-                                        
-                                        
+
+
                                     </div>
                                 </div>
                             </div>
@@ -228,34 +231,20 @@ console.log(data)
                 </div>
             </div>
 
-            <div className={!showTest ? "display-none" : ""}>
-                {/* <div className="row">
-                    <div className="col-md-12 bg-i " style={{ width: '100vw', height: '50px', position: 'fixed', zIndex: '100' }}>
-                    </div>
-                    <div className="col-md-2 " >
-                        <div style={{
-                            height: '95vh', width: '10%', position: 'fixed',
-                            overflowX: 'scroll', backgroundColor: 'rgb(255, 250, 239)',
-                            top: '50px'
-                        }} >
-                            <RenderHeader />
+            <div className={!showTest ? "display-none" : "bg pt-5 position-relative"} style={{ width: '100vw', height: '110vh' }}>
+                <button className="position-absolute btn bg-i btn-lg"
+                    style={{ top: '10px', right: '40px' }}
+                    onClick={e=> setShowTest(false)}>Trở lại</button>
+                <div className="container bg-white card " style={{ height: '90vh', overflowY: 'scroll', }}>
+                    <div className="row">
+                        <div className="col-md-12 col-12 pt-2" >
+                            <h1 className="text-center f-900"> CHI TIẾT KẾT QUẢ</h1>
                         </div>
-                    </div>
-                    <div className="col-md-9" style={{ top: '50px' }}>
-                        <RenderQuestion />
-
+                        <RenderData />
 
                     </div>
-                    <div className="col-md-12">
-                        <button className="btn bg-c float-right" onClick={handleSubmit}>Submit</button>
-                    </div>
-                </div> */}
-                <div className="wraptest">
-                    {showTest ? <RunTest
-                        questions={dataQuestion}
-                        testId={TestID}
-                        callShow= {callShow} /> : <p></p>}
                 </div>
+
             </div>
 
         </>

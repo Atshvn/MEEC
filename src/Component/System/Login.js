@@ -45,7 +45,7 @@ export const Login = () => {
             }
             else{
                 Alertsuccess("Đăng nhập thành công");
-                history.push("/profile");
+                history.push("/mid");
                 localStorage.setItem("UserInfor", JSON.stringify(response));
                 const userInfor = JSON.parse(localStorage.getItem("UserInfor"));
                 dispatch({ type: 'SET_USERINFO',  userInfor })
@@ -82,7 +82,7 @@ export const Login = () => {
                                     <div class="input-group-prepend ">
                                         <span class="input-group-text"><i class="far fa-envelope"></i></span>
                                     </div>
-                                    <input type="text" class="form-control form-custom" placeholder="Email của bạn" autoComplete
+                                    <input type="text" class="form-control form-custom" placeholder="Email của bạn" autoComplete="true"
                                     value={userName} ref={userNameRef} onChange={e => setUserName(e.target.value)} />
                                 </div>
                             </div>

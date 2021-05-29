@@ -1,4 +1,4 @@
-export const FormatDate = (date, key = 1) => {
+export const FormatDate2 = (date) => {
     if(date === undefined){
         let data = 'N/A'
         return data;
@@ -17,7 +17,7 @@ export const FormatDate = (date, key = 1) => {
     if (day.length < 2)
         day = '0' + day;
 
-        return  key === 1 ?  [day, month, year].join('-') : [ month, day, year].join('/');
+        return    [ year, month, day].join('-') 
         
   
 }

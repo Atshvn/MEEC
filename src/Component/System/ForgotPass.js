@@ -1,16 +1,43 @@
 
 import React, { useState, useEffect, useRef } from "react";
 import logo from '../../logo2.png';
-import { Link } from 'react-router-dom';
-
+import { Link , useHistory} from 'react-router-dom';
+import { Alerterror, Alertsuccess, Alertwarning } from "../../Commom";
+import { SystemAPI } from "../../Service";
 
 export const ForgotPass = () => {
+    const history = useHistory();
     useEffect(() => {
         document.querySelector(".main-header").classList.add("display-none");
         document.querySelector(".main-foodter").classList.add("display-none");
     }, [])
+    const [Email, setEmail] = useState("")
+    const emailRef = useRef();
+    const handleForgot = async () => {
+        if(Email === ""){
+            Alertwarning("Nhập email");
+            emailRef.current.focus();
+            return;
+        }
+      
+        try {
+            //const params = { _page: 1, _limit: 10 };
+            const response = await SystemAPI.forgot({email:Email});
+            if(response === 'Email not found'){
+                Alerterror("Email không tồn tại");
+                return;
+            }
+            else{
+                Alertsuccess("Vui lòng kiểm tra mail để nhận mật khẩu");
+                history.push("/login");
+            }
+            
+        } catch (error) {
+            Alerterror("Lỗi")
+            console.log('Failed to fetch: ', error);
 
-  
+        }
+    }
 
     return (
         <div class="container-fluid ">
@@ -37,11 +64,13 @@ export const ForgotPass = () => {
                                     <div class="input-group-prepend ">
                                         <span class="input-group-text"><i class="far fa-envelope"></i></span>
                                     </div>
-                                    <input type="text" class="form-control form-custom" placeholder="Email của bạn" />
+                                    <input type="text" ref={emailRef} value={Email} 
+                                    onChange={e => setEmail(e.target.value)}
+                                    class="form-control form-custom" placeholder="Email của bạn" />
                                 </div>
                             </div>
                             <div>
-                                <button type="button" class="btn btn-success w-100 mb-3 font-1rem pt-2 pb-2">Reset lại mật khẩu</button>
+                                <button type="button" onClick={handleForgot} class="btn btn-success w-100 mb-3 font-1rem pt-2 pb-2">Reset lại mật khẩu</button>
 
                             </div>
                             <div className="font-1rem" >

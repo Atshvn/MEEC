@@ -45,15 +45,13 @@ export const Signup = () => {
             //const params = { _page: 1, _limit: 10 };
             const response = await SystemAPI.signup(obj);
             console.log(response)
-            return
-            if(response === 'Email or password incorrect!'){
-                Alerterror("Tên đăng nhập hoặc mật khẩu không đúng");
+            if(response === 'Exist'){
+                Alerterror("Email đã tồn tại");
                 return;
             }
             else{
-                Alertsuccess("Đăng nhập thành công");
-                history.push("/profile");
-                localStorage.setItem("UserInfor", JSON.stringify(response));
+                Alertsuccess("Đăng kí thành công");
+                history.push("/login");
             }
             // dispatch({ type: 'SET_USERINFO', userInfor: response })
             
@@ -88,7 +86,7 @@ export const Signup = () => {
                                 <div class="input-group">
                                    
                                     <input type="text" class="form-control form-custom pl-2"
-                                     placeholder="Tên của bạn" autoComplete
+                                     placeholder="Tên của bạn"  autoComplete="true"
                                      ref={userNameRef} value={userName} onChange={ e => setUserName(e.target.value)} />
                                     <div class="input-group-prepend ">
                                         <span class="input-group-text"><i class="far fa-user"></i></span>
@@ -98,8 +96,8 @@ export const Signup = () => {
                             <div class="form-group mb-3">
                                 <div class="input-group">
                                     
-                                    <input type="email" class="form-control form-custom pl-2"
-                                     placeholder="Email của bạn" autoComplete
+                                    <input type="email" required class="form-control form-custom pl-2"
+                                     placeholder="Email của bạn"  autoComplete="true"
                                      ref={emailRef} value={email} onChange={ e => setEmail(e.target.value)}  />
                                     <div class="input-group-prepend">
                                         <span class="input-group-text"><i class="far fa-envelope"></i></span>

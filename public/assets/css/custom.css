@@ -579,5 +579,13 @@ label, .text-input{
     background-color: #4bb5ff;
 }
 .bg{
-  background: #F8F9FF;
+  background:#EAF3FA;
+}
+.bg-white{
+  background-color: #fff;
+}
+.bg-d2{
+  background-color: #FAE7E7;
+}.bg-c2{
+  background-color: #E8F6F0;
 }

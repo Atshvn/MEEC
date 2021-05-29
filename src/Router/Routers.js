@@ -2,7 +2,7 @@ import { Demo, Home, Course, Course1 , Course3 , Course4, Course5, Course6 , Cou
 import { Foodter, TopMenuClient} from '../Component/Template'
 import { Route, Switch, BrowserRouter, Redirect } from 'react-router-dom';
 import { ForgotPass, Login , Page404, Signup} from '../Component/System';
-import { MainUser, Profile, ResultLearning } from '../Component/User';
+import { MainUser, Mid, Profile, ResultLearning } from '../Component/User';
 import { HomeAdmin, Question, TestManager } from '../Component/Admin';
 import { CourseManage } from '../Component/Admin/CourseManage';
 import ScrollToTop from '../Commom/ScrollToTop';
@@ -21,6 +21,7 @@ export const Routers = () => {
                 <Route exact path="/demo" component={Demo} />
                 <PrivateRoute exact path="/main" component={MainUser} />
                 <Route exact path="/profile" component={Profile} />
+                <Route exact path="/mid" component={Mid} />
                 <Route exact path="/result" component={ResultLearning} />
                 <Route exact path="/course" component={Course} />
                 <Route exact path="/course1" component={Course1} />

@@ -32,13 +32,13 @@ export const SiderBarUser = () => {
                     <Link class="nav-link font-weight-bold" to="/result"><i class="fas fa-angry mr-3"></i>Kết quả học tập</Link>
                 </li>
                 <li class="list-group-item bd-none">
-                    <Link class="nav-link font-weight-bold" to=""><i class="fas fa-angry mr-3"></i>Lịch sử thi</Link>
+                    <Link class="nav-link font-weight-bold" ><i class="fas fa-angry mr-3"></i>Something</Link>
                 </li>
                 <li class="list-group-item bd-none">
-                    <Link class="nav-link font-weight-bold" to=""><i class="fas fa-angry mr-3"></i>Something</Link>
+                    <Link class="nav-link font-weight-bold"><i class="fas fa-angry mr-3"></i>Something</Link>
                 </li>
                 <li class="list-group-item bd-none">
-                    <Link class="nav-link font-weight-bold" to=""><i class="fas fa-angry mr-3"></i>Something</Link>
+                    <Link class="nav-link font-weight-bold"><i class="fas fa-angry mr-3"></i>Something</Link>
                 </li>
             </ul>
         </div>
