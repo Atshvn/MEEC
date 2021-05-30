@@ -51,7 +51,7 @@ export const Profile = () => {
     const [Gender, setGender] = useState({ value: 0, label: "Vui lòng chọn" })
     const [DataGender, setDataGender] = useState([])
 
-    const [NumberPhone, setNumberPhone] = useState("")
+    const [NumberPhone, setNumberPhone] = useState(0)
     const PhoneRef = useRef();
 
     const [Address, setAddress] = useState("");
@@ -210,7 +210,7 @@ export const Profile = () => {
                                                         borderLeft: 'none', fontSize: '18px'
                                                     }}
                                                     ref={PhoneRef}
-                                                    value={`0${NumberPhone}`} onChange={e => setNumberPhone(e.target.value)} />
+                                                    value={NumberPhone} onChange={e => setNumberPhone(e.target.value)} />
                                             </div>
                                         </div>
                                     </div>
