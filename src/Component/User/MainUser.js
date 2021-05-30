@@ -61,7 +61,7 @@ export const MainUser = () => {
             try {
                 const response2 = await TestAPI.getNew({courseId: idc});
                 const newData = response2.map(item => {
-                    let d = new Date(item.dateTest), h = d.getHours(), m = d.getMinutes();
+                    let d = new Date(item.dateTest),  h = '' + d.getHours(), m = '' + d.getMinutes();
                     if (h.length < 2)
                     h = '0' + h;
                     if (m.length < 2)
@@ -98,7 +98,7 @@ export const MainUser = () => {
                 const response2 = await TestAPI.getOld({courseId: idc});
                 console.log(response2);
                 const newData = response2.map(item => {
-                    let d = new Date(item.dateTest), h = d.getHours(), m = d.getMinutes();
+                    let d = new Date(item.dateTest), h = '' + d.getHours(), m = '' + d.getMinutes();
                     if (h.length < 2)
                     h = '0' + h;
                     if (m.length < 2)
@@ -128,8 +128,7 @@ export const MainUser = () => {
     const ListTest = () => {
         return (
             data.length > 0 ?  data.map((item, index) => {
-                setTime(item.time)
-                setTestID(item.testId);
+                
                 const x = filterItem(DataCourse, item.courseId)
                 const date2 = new Date(item.date2)
                 return (
@@ -143,7 +142,8 @@ export const MainUser = () => {
                                 <span className="col-md-6">Số lượng câu: {item.totalQuestion}</span>
                                 <span className="col-md-6">Thời gian: {item.time} phút</span>
                             </p>
-                            <button class="btn bg-i font-15" onClick={e => CheckDone(item.listQuestions, item.testId, date2)}>Vào thi</button>
+                            <button class="btn bg-i font-15"
+                             onClick={e => CheckDone(item.listQuestions, item.testId, date2, item.time)}>Vào thi</button>
                         </div>
                     </div>
                 )
@@ -173,12 +173,15 @@ export const MainUser = () => {
             })
         )
     }
-    const CheckDone = async (data, id, date2) => {
+    
+    const CheckDone = async (data, id, date2, time) => {
+        setTime(time)
         const date = new Date();
         if(date.getTime() < date2.getTime()){
             Alertwarning("Chưa tới giờ thi, vui lòng trở lại sau")
             return;
         }
+
         const datanew = data.map(i => {
             return {
                 ...i,
@@ -190,6 +193,8 @@ export const MainUser = () => {
                 corectAns: i.corectAns.trim(),
             }
         })
+        setTestID(id);
+
         setDataQuestion(datanew)
         try {
         const response2 = await TestAPI.checkDone({accId: UserData.accountId, testId: id});
@@ -334,6 +339,7 @@ export const MainUser = () => {
                     {showTest ? <RunTest
                         questions={dataQuestion}
                         testId={TestID}
+                        time= {Time}
                         callShow= {callShow} /> : <p></p>}
                 </div>
             </div>

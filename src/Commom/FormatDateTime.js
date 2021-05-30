@@ -16,10 +16,7 @@ export const FormatDateTime = (date) => {
         month = '0' + month;
     if (day.length < 2)
         day = '0' + day;
-    if (h.length < 2)
-        h = '0' + day;
-    if (m.length < 2)
-        m = '0' + day;
+
 
     return [h, m].join(':') + ` ` + [day, month, year].join('-')
 

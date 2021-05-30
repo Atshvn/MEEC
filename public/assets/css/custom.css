@@ -578,7 +578,10 @@ label, .text-input{
     position: relative;
 }
 .element-center{
-    margin-top: 15%;
+    margin-top: 5%;
+}
+.element-center2{
+  margin-top: 15%;
 }
 .bg-t{
     background-color: rgb(255, 250, 239);

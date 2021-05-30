@@ -94,6 +94,8 @@ export const ResultLearning = () => {
     const showResultDetail = (item, result, ques) => {
         setShowTest(true)
         const datanew = ques.map((i, index) => {
+           const rs = result[index]?.selectedAns ? result[index].selectedAns.trim() : ""
+           const o =  result[index]?.ok ? result[index].ok : false
             return {
                 ...i,
                 content: i.content.trim(),
@@ -102,8 +104,8 @@ export const ResultLearning = () => {
                 answerC: i.answerC.trim(),
                 answerD: i.answerD.trim(),
                 corectAns: i.corectAns.trim(),
-                selectedAns: result[index].selectedAns.trim(),
-                OK: result[index].ok
+                selectedAns: rs,
+                OK: o
             }
         })
         setGetItem(item);

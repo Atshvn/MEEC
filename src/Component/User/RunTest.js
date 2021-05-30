@@ -14,12 +14,13 @@ import {
     SET_RESULT
 } from "../../Reducers/types";
 import { TestAPI } from "../../Service";
-
+import ProgressBar from "@ramonak/react-progress-bar";
 
 export const RunTest = ({
     questions = [],
     testId = 0,
     show = false,
+    time = 0,
     callShow= callShow()
 }) => {
     const initialState = {
@@ -39,6 +40,33 @@ export const RunTest = ({
         const UserData = JSON.parse(localStorage.getItem("UserInfor"));
     const UserID = (UserData.accountId)
     const question = questions[currentQuestion];
+    const [ minutes, setMinutes ] = useState(time);
+    const [seconds, setSeconds ] =  useState(0);
+    useEffect(()=>{
+        let myInterval = setInterval(() => {
+                if (seconds > 0) {
+                    setSeconds(seconds - 1);
+                }
+                if (seconds === 0) {
+                    if (minutes === 0) {
+                        clearInterval(myInterval)
+                    } else {
+                        setMinutes(minutes - 1);
+                        setSeconds(59);
+                    }
+                } 
+            }, 1000)
+            return ()=> {
+                clearInterval(myInterval);
+            };
+        });
+        const [Proges, setProges] = useState(100)
+        useEffect(() => {
+           const h = time*60*1000;
+           const oneProgress = h/100;
+            let timerId= setInterval(() => setProges(Proges -1), oneProgress);
+            setTimeout(() => { clearInterval(timerId) },h);
+        },[Proges])
 
     const renderError = () => {
         if (!error) {
@@ -47,6 +75,9 @@ export const RunTest = ({
         Alerterror("Hãy chọn đáp án")
         return <div className="error text-danger"> {error} </div>;
     };
+    useEffect(() => {
+      AutoSave()
+    }, [])
  
    
     const renderResultMark = (question, answer) => {
@@ -87,7 +118,7 @@ export const RunTest = ({
                 </div>
                
                 <div>
-                    <button className="btn bg-c btn-lg mt-4" onClick={e => handleSaveResult(x, arr)}>
+                    <button className="btn bg-c btn-lg mt-4" id="save" onClick={e => handleSaveResult(x, arr)}>
                         Nạp bài thi
                     </button>
                 </div>
@@ -131,7 +162,15 @@ export const RunTest = ({
         )
     };
 
+    const AutoSave = () => {
+       const timeTest = (time*60*1000)
+        let timerId= setInterval(() => dispatch({ type: SET_SHOW_RESULTS, showResults: true }), timeTest);
+        setTimeout(() => { clearInterval(timerId) },timeTest+1000);
+        return(
+            <> </>
+        )
 
+    }
     const handleSaveResult = (score, arr) => {
         show = true;
         setScore(score);
@@ -142,8 +181,9 @@ export const RunTest = ({
             accountId: UserID,
             testId: testId,
             score: score,
-            answers: arr
+            answers: arr || []
         }
+    
         MEEC_RESULT_Save(obj)
     }
 
@@ -267,7 +307,7 @@ export const RunTest = ({
     if (showResults) {
         return (
             <div className="container results">
-                <div className="element-center card p-4 bx " style={{ backgroundColor: '#c4e8d9' }}>
+                <div className="element-center2 card p-4 bx " style={{ backgroundColor: '#c4e8d9' }}>
                     <div className="text-center color-text"><h1 className="f-900 ">Kết quả</h1></div>
                     <div> {!showBack ? Submit() : renderResultsData()}</div>
                 </div>
@@ -281,7 +321,28 @@ export const RunTest = ({
     } else {
         return (
             <TestContext.Provider value={{ state, dispatch }}>
-                <div className="container  ">
+                <div className="container-fluid  ">
+                <ProgressBar 
+                            completed={Proges}
+                            labelColor="#fff"
+                            bgColor="#18ce0f"
+                            height="12px"
+                            labelSize="12px"
+                            />
+                    <div className="position-relative d-flex flex-column justify-content-end align-items-end">
+                    <div className="text-center  btn-lg mt-2">
+                        { minutes === 0 && seconds === 0
+                            ? null
+                            : <button className="btn bg-i"> {minutes}:{seconds < 10 ?  `0${seconds}` : seconds}</button> 
+                        }
+                        </div>
+                        <div className="text-center btn-lg mt-2">
+                       
+                             <button className="btn bg-i" onClick={() => dispatch({ type: SET_SHOW_RESULTS, showResults: true })}> Nạp bài sớm</button> 
+                        </div>
+                    </div>
+                    
+                       <div className="container  ">
                     <div className="element-center card p-4 bx bg-t">
                         <div className="text-center">  <Progress
                             total={questions.length}
@@ -303,6 +364,7 @@ export const RunTest = ({
                             </button>
                         </div>
                     </div>
+                       </div>
                 </div>
             </TestContext.Provider>
         );
