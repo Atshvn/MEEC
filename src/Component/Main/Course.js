@@ -30,7 +30,7 @@ export const Course = () => {
                 </div>
 
             </div>
-            <CarouselSubject title={"Chương trình đào tạo"}
+            <CarouselSubject title={"Chương trình đào tạo"} key={1}
                 className={" d-flex justify-content-center color-text"} />
             <div className="container mt-4">
                 <div class="mb-4">

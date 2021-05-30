@@ -4,7 +4,8 @@ import React, { useState, useEffect, useRef } from "react";
 import { CourseAPI, SystemAPI } from "../../Service";
 import Select from "react-select"
 import DateTimePicker from "react-datetime-picker/dist/DateTimePicker";
-import { Alerterror, Alertsuccess, FormatDate, FormatDate2 } from "../../Commom";
+import { Alerterror, Alertsuccess, Alertwarning, FormatDate, FormatDate2 } from "../../Commom";
+import { useHistory } from "react-router";
 export const Profile = () => {
     useEffect(() => {
         document.querySelector(".main-header").classList.add("display-none");
@@ -41,6 +42,7 @@ export const Profile = () => {
         setDataGender(list)
     }
     const UserInfor = JSON.parse(localStorage.getItem("UserInfor"));
+    const accId = UserInfor.accountId;
     const [email, setEmail] = useState("");
 
     const [userName, setUserName] = useState("")
@@ -59,7 +61,11 @@ export const Profile = () => {
 
     const [DateofBirth, setDateofBirth] = useState(new Date())
 
+    const [showPass, setShowPass] = useState(false)
 
+    const [passOld, setPassOld] = useState("")
+    const [PassNew, setPassNew] = useState("");
+    const [PassCheck, setPassCheck] = useState("")
     //#region List
     const MEEC_Course_List = async () => {
         const UserData = JSON.parse(localStorage.getItem("UserInfor"));
@@ -86,7 +92,6 @@ export const Profile = () => {
             address: Address,
             courseId: courseID.value
         }
-        console.log(obj);
         try {
             const response = await SystemAPI.put(obj);
             Alertsuccess("Cập nhật thông tin thành công")
@@ -107,6 +112,45 @@ export const Profile = () => {
             console.log(error);
         }
     }
+
+    const MEEC_ChangePassWord = async () => {
+        if(PassNew !== PassCheck){
+            Alertwarning("Nhập lại mật khẩu không chính xác!")
+            return;
+        }
+        const obj = {
+            oldPassWord: passOld,
+            newPassWord: PassNew
+        }
+        try {
+            const res = await SystemAPI.changePassWord(obj, accId)
+            if(res == 'Success'){
+                Alertsuccess("Đổi mật khẩu thành công")
+                setShowPass(false);
+                setPassCheck("")
+                setPassNew("")
+                setPassOld("")
+                return;
+            }
+            else{
+                Alerterror("Mật khẩu cũ không chính xác")
+                return;
+            }
+            
+        } catch (error) {
+            console.log(error);
+            
+        }
+    }
+
+      
+    const history = useHistory();
+    const HandleLogout = () => {
+        history.push("/login");
+        localStorage.removeItem("UserInfor");
+    }
+   
+
     return (
         <div>
             <TopMenuUser />
@@ -117,7 +161,7 @@ export const Profile = () => {
                 <div className="col-md-8 col-12 mt-4" style={{ marginLeft: '-50px' }}>
                     <h3 className="font-weight-bold f-900 ">Tài khoản: {userName}</h3>
                     <p class="mb-4">Quản lý, cập nhật đầy đủ thông tin cá nhân để hoạt động tốt hơn trên MEEC!</p>
-                    <div class="card card-body card-test bd-none mr-5">
+                    <div class={showPass? "card card-body card-test bd-none mr-5 display-none" : "card card-body card-test bd-none mr-5"}>
                         <div className="row">
                             <div className="col-md-6 col-12">
                                 <div className="d-flex justify-content-center">
@@ -166,7 +210,7 @@ export const Profile = () => {
                                                         borderLeft: 'none', fontSize: '18px'
                                                     }}
                                                     ref={PhoneRef}
-                                                    value={NumberPhone} onChange={e => setNumberPhone(e.target.value)} />
+                                                    value={`0${NumberPhone}`} onChange={e => setNumberPhone(e.target.value)} />
                                             </div>
                                         </div>
                                     </div>
@@ -194,7 +238,7 @@ export const Profile = () => {
                                 </div>
                             </div>
                             <div className="col-md-12 col-12 ">
-                                <div className="row">
+                                <div className="row border-bottom  border-success">
                                     <div className="col-6 mb-2">
                                         <div class="form-group">
                                             <p class="label m-0" >Giới tính</p>
@@ -253,14 +297,112 @@ export const Profile = () => {
                                     
 
                                     <div className="col-12 mb-2">
-                                        <button onClick={MEEC_ChangeProfile} class="btn btn-success w-100 font-18 pt-10 pb-10">Lưu lại</button>
+                                        <button onClick={MEEC_ChangeProfile} class="btn bg-i w-100 font-18 pt-10 pb-10">Lưu lại</button>
                                     </div>
                                 </div>
                             </div>
-                            <hr />
-                            <div className="col-12">
-                                <p>Các thông tin khác</p>
+                            <div className="col-12 mt-3">
+                                <h3 className =" m-0 pb-3 color-text">Các thông tin khác</h3>
+                                <div className="row">
+                                    <div className="col-md-6">
+                                        <button className="btn bg2 w-100 p-3 btn-rounded" onClick ={ e => setShowPass(true)}>
+                                            <p className=" pl-3 m-0 text-secondary font-20 d-flex  align-items-center justify-content-between"> Mật khẩu đăng nhập <i class="fas fa-chevron-right float-right"></i> </p>
+                                            </button>
+                                    </div>
+                                    <div className="col-md-6">
+                                    <button className="btn bg2 w-100 p-3 btn-rounded" onClick={HandleLogout}>
+                                            <p className=" pl-3 m-0 text-secondary font-20 d-flex  align-items-center justify-content-between"> Đăng xuất <i class="fas fa-sign-out-alt pl-3"></i> </p>
+                                            </button>
+                                    </div>
+                                </div>
                             </div>
+                        </div>
+                    </div>
+                    <div class={!showPass? "card card-body card-test bd-none mr-5 display-none" : "card card-body card-test bd-none mr-5"}>
+                        <div className="row">
+                           
+                            <div className="col-md-12 col-12">
+                                <div className="row mt-4 mr-4">
+                                    <div className="col-12 col-md-4 mb-2">
+                                        <div class="form-group">
+                                            <p class="label m-0 color-text" >Mật khẩu cũ</p>
+                                            <div class="input-group">
+                                                <div class="input-group-prepend" >
+                                                    <span class="input-group-text bd-input"
+                                                        style={{
+                                                            backgroundColor: '#fff',
+                                                            borderRight: 'none'
+                                                        }}><i class="fas fa-lock"></i></span>
+                                                </div>
+                                                <input type="password" class="form-control form-custom bd-input"
+                                                    style={{
+                                                        backgroundColor: '#fff',
+                                                        borderLeft: 'none', fontSize: '18px',
+                                                    }}
+                                                    value={passOld}
+                                                    onChange={e => setPassOld(e.target.value)}
+                                                     placeholder="Nhập vào mật khẩu cũ" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div className=" col-12 col-md-4 mb-2">
+                                        <div class="form-group">
+                                            <p class="label m-0 color-text" >Mật khẩu mới</p>
+                                            <div class="input-group">
+                                                <div class="input-group-prepend  bd-input" >
+                                                    <span class="input-group-text"
+                                                        style={{
+                                                            backgroundColor: '#fff',
+                                                            borderRight: 'none'
+                                                        }}><i class="fas fa-lock"></i></span>
+                                                </div>
+                                                <input type="password" class="form-control form-custom bd-input" maxLength="12"
+                                                    style={{
+                                                        backgroundColor: '#fff',
+                                                        borderLeft: 'none', fontSize: '18px'
+                                                    }}
+                                                    value={PassNew} placeholder="Nhập mật khẩu mới" 
+                                                    onChange={e => setPassNew(e.target.value)} />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div className="col-12 col-md-4 mb-2">
+                                        <div class="form-group">
+                                            <p class="label m-0 color-text" >Nhập lại mật khẩu mới</p>
+                                            <div class="input-group">
+                                                <div class="input-group-prepend  bd-input" >
+                                                    <span class="input-group-text"
+                                                        style={{
+                                                            backgroundColor: '#fff',
+                                                            borderRight: 'none'
+                                                        }}><i class="fas fa-lock"></i></span>
+                                                </div>
+                                                <input type="password" class="form-control form-custom  bd-input "
+                                                    style={{
+                                                        backgroundColor: '#fff',
+                                                        borderLeft: 'none', fontSize: '18px',
+                                                    }}
+                                                    placeholder="Nhập lại mất khẩu mới"  value={PassCheck} 
+                                                    onChange={e => setPassCheck( e.target.value)}/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div className="col-md-6 col-12 mt-4">
+                                        <button className="btn bg-i float-right w-50"
+                                        onClick={MEEC_ChangePassWord}>
+                                            <p className="m-0"> Đổi mật khẩu</p>
+                                        </button>
+                                    </div>
+                                    <div className="col-md-6 col-12  mt-4">
+                                    <button className="btn btn-outline-secondary w-50"
+                                    onClick={ e => setShowPass(false)}>
+                                            <p className="m-0">Trở lại</p>
+                                        </button>
+                                    </div>
+
+                                </div>
+                            </div>
+                            
                         </div>
                     </div>
                 </div>

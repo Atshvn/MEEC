@@ -6,7 +6,8 @@ import { Switch, Route, Link, useRouteMatch } from "react-router-dom";
 export const CarouselSubject = ({
 
     title = '',
-    className = ""
+    className = "",
+    key= 0
 }) => {
     useEffect(() => {
         MEEC_Course_List();
@@ -15,14 +16,15 @@ export const CarouselSubject = ({
     const MEEC_Course_List = async () => {
         try {
             const response = await CourseAPI.getAll();
-
-            setData(response);
+            const x = response.splice(0, 6)
+             key = 0? setData(response) : setData(x)
         } catch (error) {
             console.log('Failed to fetch: ', error);
         }
     }
     const RenderCourse = () => {
         return Data.map((item, index) => {
+            const x = index + 1 >=6 ? 6 : index+1
            return(
             <div key={index} class="col-md-4 col-12">
             <div class="card bx">
@@ -37,7 +39,7 @@ export const CarouselSubject = ({
                                 <small class=" align-middle f-900">{item.timeStudy} giờ</small>
                             </div>
                             <div className="col-6">
-                                <Link to="/course1" style={{ display: 'block', color: '#555' }} className="btn btn-rounded bg-i w-100">
+                                <Link to={`/course${x }`} style={{ display: 'block', color: '#555' }} className="btn btn-rounded bg-i w-100">
                                     <span class="color-white font-18"> Xem thêm</span>
                                 </Link>
                             </div>

@@ -309,6 +309,7 @@ body {
 *::-webkit-scrollbar
 {
 	width: 10px;
+  height: 10px;
 	background-color: #F5F5F5;
 }
 
@@ -601,4 +602,14 @@ label, .text-input{
   background-color: #FAE7E7;
 }.bg-c2{
   background-color: #E8F6F0;
+}
+.bg2{
+  background-color: #EFF3FF;
+}
+.schedule th, .schedule td{
+  padding: 20px 0
+
+}
+.schedule p {
+  margin: 0;
 }

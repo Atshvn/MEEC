@@ -17,5 +17,9 @@ export const SystemAPI = {
         const url = '/account/getpassword';
         return axiosClient.get(url, {params});
     },
+    changePassWord:  (data, id) => {
+        const url = `/Account/changepw/${id}`;
+        return axiosClient.put(url, data);
+    },
 
 }

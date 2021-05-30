@@ -16,6 +16,6 @@ export const  Alertsuccess = (title) => {
 
 
 export const  Alertinfo = (title) => {
-  NotificationManager.info(title);
+  NotificationManager.info(title, "Thông báo", 5000);
 };
 

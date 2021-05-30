@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { Link, useHistory } from "react-router-dom"
+import { Alertinfo, Alertwarning } from "../../Commom";
 
 export const SiderBarUser = () => {
     const [email, setEmail] = useState("");
@@ -32,13 +33,15 @@ export const SiderBarUser = () => {
                     <Link class="nav-link font-weight-bold" to="/result"><i class="fas fa-angry mr-3"></i>Kết quả học tập</Link>
                 </li>
                 <li class="list-group-item bd-none">
-                    <Link class="nav-link font-weight-bold" ><i class="fas fa-angry mr-3"></i>Something</Link>
+                    <Link class="nav-link font-weight-bold" to="/schedule" ><i class="fas fa-angry mr-3"></i>Lịch học</Link>
                 </li>
                 <li class="list-group-item bd-none">
-                    <Link class="nav-link font-weight-bold"><i class="fas fa-angry mr-3"></i>Something</Link>
+                    <Link class="nav-link font-weight-bold" onClick={ e => Alertinfo("Chức năng đang được cập nhật, vui lòng thử lại sau")}>
+                        <i class="fas fa-angry mr-3"></i>Đang cập nhật</Link>
                 </li>
                 <li class="list-group-item bd-none">
-                    <Link class="nav-link font-weight-bold"><i class="fas fa-angry mr-3"></i>Something</Link>
+                    <Link class="nav-link font-weight-bold" onClick={ e => Alertinfo("Chức năng đang được cập nhật, vui lòng thử lại sau")}>
+                        <i class="fas fa-angry mr-3"></i>Đang cập nhật</Link>
                 </li>
             </ul>
         </div>
