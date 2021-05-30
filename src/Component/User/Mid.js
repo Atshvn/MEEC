@@ -19,8 +19,18 @@ export const Mid = () => {
         const UserData = JSON.parse(localStorage.getItem("UserInfor"));
 
     }, [])
+    useEffect(() => {
+        MEEC_Check_Test();
+    }, [])
     const UserData = JSON.parse(localStorage.getItem("UserInfor"));
-   
+   const MEEC_Check_Test = async () => {
+       try {
+           const res = await TestAPI.check();
+
+       } catch (error) {
+           console.log(error)
+       }
+   }
    
     return (
         < >

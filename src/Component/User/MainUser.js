@@ -2,7 +2,7 @@ import { TopMenuUser } from "../Template"
 import { SiderBarUser } from "../Template/SiderBarUser"
 import React, { useState, useEffect, useContext } from "react";
 import { TestAPI, CourseAPI } from "../../Service";
-import { Alerterror, Alertsuccess, Alertwarning, FormatDate } from "../../Commom";
+import { Alerterror, Alertsuccess, Alertwarning, FormatDate, FormatDateTime } from "../../Commom";
 import { RunTest } from "./RunTest";
 import { useHistory } from "react-router";
 // import { store } from "../../Store/store";
@@ -38,7 +38,17 @@ export const MainUser = () => {
     const filterItem = (data, item) => {
         return data.filter(i => i.courseId === item);
     }
+    useEffect(() => {
+        MEEC_Check_Test();
+    }, [])
+   const MEEC_Check_Test = async () => {
+       try {
+           const res = await TestAPI.check();
 
+       } catch (error) {
+           console.log(error)
+       }
+   }
     const callShow = (value) =>{
         setShowTest(value)
     }
@@ -50,15 +60,24 @@ export const MainUser = () => {
             setDataCourse(response)
             try {
                 const response2 = await TestAPI.getNew({courseId: idc});
-                console.log(response2);
                 const newData = response2.map(item => {
+                    let d = new Date(item.dateTest), h = d.getHours(), m = d.getMinutes();
+                    if (h.length < 2)
+                    h = '0' + h;
+                    if (m.length < 2)
+                    m = '0' + m;
+
+                    const hour = `${h}:${m}`
+
                     const itemNew = filterItem(response, item.courseId);
                     const Status = item.state ? "Chưa thi" : "Đã thi";
                     return {
                         ...item,
                         courseName: itemNew[0].name,
                         dateTest: FormatDate(item.dateTest),
-                        Status: Status
+                        Status: Status,
+                        hour: hour,
+                        date2: item.dateTest
                     }
                 })
                 setData([...newData])
@@ -79,13 +98,22 @@ export const MainUser = () => {
                 const response2 = await TestAPI.getOld({courseId: idc});
                 console.log(response2);
                 const newData = response2.map(item => {
+                    let d = new Date(item.dateTest), h = d.getHours(), m = d.getMinutes();
+                    if (h.length < 2)
+                    h = '0' + h;
+                    if (m.length < 2)
+                    m = '0' + m;
+
+                    const hour = `${h}:${m}`;
                     const itemNew = filterItem(response, item.courseId);
                     const Status = item.state ? "Chưa thi" : "Đã thi";
                     return {
                         ...item,
                         courseName: itemNew[0].name,
                         dateTest: FormatDate(item.dateTest),
-                        Status: Status
+                        Status: Status,
+                        hour: hour,
+                        date2: item.dateTest
                     }
                 })
                 setDataActived([...newData])
@@ -99,22 +127,23 @@ export const MainUser = () => {
 
     const ListTest = () => {
         return (
-          data.length > 0 ?  data.map((item, index) => {
+            data.length > 0 ?  data.map((item, index) => {
                 setTime(item.time)
                 setTestID(item.testId);
                 const x = filterItem(DataCourse, item.courseId)
-
+                const date2 = new Date(item.date2)
                 return (
                     <div className="col-md-6" key={index}>
                         <div class="card card-body card-test">
                             <h4 class="card-title f-900">{item.testName}</h4>
                             <p class=" row">
                                 <span className="col-md-12">Khóa học: {x[0].name} </span>
-                                <span className="col-md-12">Ngày thi: {item.dateTest}</span>
+                                <span className="col-md-6">Giờ thi: {item.hour}</span>
+                                <span className="col-md-6">Ngày thi: {item.dateTest}</span>
                                 <span className="col-md-6">Số lượng câu: {item.totalQuestion}</span>
                                 <span className="col-md-6">Thời gian: {item.time} phút</span>
                             </p>
-                            <button class="btn bg-i font-15" onClick={e => CheckDone(item.listQuestions, item.testId)}>Vào thi</button>
+                            <button class="btn bg-i font-15" onClick={e => CheckDone(item.listQuestions, item.testId, date2)}>Vào thi</button>
                         </div>
                     </div>
                 )
@@ -132,7 +161,8 @@ export const MainUser = () => {
                             <h4 class="card-title f-900">{item.testName}</h4>
                             <p class=" row">
                                 <span className="col-md-12">Khóa học: {x[0].name} </span>
-                                <span className="col-md-12">Ngày thi: {item.dateTest}</span>
+                                <span className="col-md-6">Giờ thi: {item.hour}</span>
+                                <span className="col-md-6">Ngày thi: {item.dateTest}</span>
                                 <span className="col-md-6">Số lượng câu: {item.totalQuestion}</span>
                                 <span className="col-md-6">Thời gian: {item.time} phút</span>
                             </p>
@@ -143,7 +173,12 @@ export const MainUser = () => {
             })
         )
     }
-    const CheckDone = async (data, id) => {
+    const CheckDone = async (data, id, date2) => {
+        const date = new Date();
+        if(date.getTime() < date2.getTime()){
+            Alertwarning("Chưa tới giờ thi, vui lòng trở lại sau")
+            return;
+        }
         const datanew = data.map(i => {
             return {
                 ...i,

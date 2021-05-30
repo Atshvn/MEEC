@@ -7,3 +7,4 @@ export * from './FormatDate';
 export * from './FormatDate2';
 export * from './ScrollToTop';
 export * from './Messenger';
+export * from './FormatDateTime';

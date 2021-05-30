@@ -18,7 +18,7 @@ export const Foodter = () => {
                                 Hotline: 028971718434
                   </li>
                             <li class="foodter__li">
-                                Address: 12 Nguyễn Văn Bảo, quận Gò Vấp
+                                Address: 12 Nguyễn Văn Bảo, quận Gò Vấp, TP.Hồ chí Minh
                   </li>
 
                         </ul>

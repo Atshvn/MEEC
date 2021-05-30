@@ -20,6 +20,6 @@ export const SystemAPI = {
     changePassWord:  (data, id) => {
         const url = `/Account/changepw/${id}`;
         return axiosClient.put(url, data);
-    },
+    }
 
 }

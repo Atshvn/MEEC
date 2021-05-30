@@ -246,11 +246,9 @@ export const RunTest = ({
         );
     }
     const MEEC_RESULT_Save = async (obj) => {
-       
         try {
             //const params = { _page: 1, _limit: 10 };
             const response = await TestAPI.submit(obj);
-            console.log('Fetch  successfully: ', response);
             Alertsuccess("Nạp bài thành công");
             setShowBack(true)
             

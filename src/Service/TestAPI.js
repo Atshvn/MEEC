@@ -53,6 +53,11 @@ export const TestAPI = {
         const url = '/test/isdoing';
         return axiosClient.get(url, { params });
     },
+    check : (params) =>{
+        const url = '/test/state/change';
+        return axiosClient.get(url, {params})
+    }
+    
     // getTestActive: (params) => {
     //     const url = '/test/new';
     //     return axiosClient.get(url, { params });
