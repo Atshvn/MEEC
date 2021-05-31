@@ -42,7 +42,7 @@ export const Mid = () => {
                     </div>
                     <div className="col-md-8 col-12 mt-4 text-center" style={{ marginLeft: '-50px' }}>
                         <h3 className=" f-900">Chào mừng bạn đến với hệ thống học viên của MEEC</h3>
-                        <p>Vui lòng chọn các lựa chọn để thực hiện</p>
+                        <p>Vui lòng lựa chọn các chức năng để tương tác</p>
                         <img className="avatar m-auto" class="rounded-circle" src="assets\images\avatar.jpg" alt="" width="300" />
                         
                     </div>

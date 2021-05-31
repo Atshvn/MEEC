@@ -241,11 +241,11 @@ export const ResultLearning = () => {
                 </div>
             </div>
 
-            <div className={!showTest ? "display-none" : "bg pt-5 position-relative"} style={{ width: '100vw', height: '110vh' }}>
+            <div className={!showTest ? "display-none" : "bg pt-5 position-relative"} style={{ width: '100vw', height: '110vh' , overflow:'hidden'}}>
                 <button className="position-absolute btn bg-i btn-lg"
                     style={{ top: '10px', right: '40px' }}
                     onClick={e=> setShowTest(false)}>Trở lại</button>
-                <div className="container bg-white card " style={{ height: '90vh', overflowY: 'scroll', }}>
+                <div className="container bg-white card fixed " style={{ height: '90vh', overflowY: 'scroll', }}>
                     <div className="row">
                         <div className="col-md-12 col-12 pt-2" >
                             <h1 className="text-center f-900"> CHI TIẾT KẾT QUẢ</h1>

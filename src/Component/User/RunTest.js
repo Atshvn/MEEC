@@ -80,7 +80,6 @@ export const RunTest = ({
             };
         },[seconds]);
      
-console.log(Proges)
     const renderError = () => {
         if (!error) {
             return;
@@ -231,7 +230,6 @@ console.log(Proges)
         );
     }
 
-
     function Answer(props) {
         let classes = ['answer', 'btn bg-w w-100 font-18  btn-rounded btn-confirm'];
         const handleClick = e => {
@@ -350,8 +348,9 @@ console.log(Proges)
                         }
                         </div>
                         <div className="text-center btn-lg mt-2">
-                       
-                             <button className="btn bg-i" onClick={() => dispatch({ type: SET_SHOW_RESULTS, showResults: true })}> Nạp bài sớm</button> 
+                             <button className="btn bg-i"
+                              onClick={() =>answers.length > 0 ? dispatch({ type: SET_SHOW_RESULTS, showResults: true }): Alerterror("Hãy trả lời ít nhất một câu hỏi")}>
+                                   Nạp bài sớm</button> 
                         </div>
                     </div>
                     
