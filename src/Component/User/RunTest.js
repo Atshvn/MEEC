@@ -42,6 +42,25 @@ export const RunTest = ({
     const question = questions[currentQuestion];
     const [ minutes, setMinutes ] = useState(time);
     const [seconds, setSeconds ] =  useState(0);
+    const [Proges, setProges] = useState(100)
+    useEffect(() => {
+        const h = time*60*1000;
+        const oneProgress = h/100;
+        const z = setInterval(() => {
+            setProges((prev) => {
+                if (prev === 0) {
+                    clearInterval(z);
+                    return 0;
+                } else {
+                    return prev -1;
+                }
+            });
+        }, oneProgress);
+        return ()=> {
+            clearInterval(z) ;
+
+        };
+    }, [])
     useEffect(()=>{
         let myInterval = setInterval(() => {
                 if (seconds > 0) {
@@ -59,15 +78,9 @@ export const RunTest = ({
             return ()=> {
                 clearInterval(myInterval);
             };
-        });
-        const [Proges, setProges] = useState(100)
-        useEffect(() => {
-           const h = time*60*1000;
-           const oneProgress = h/100;
-            let timerId= setInterval(() => setProges(Proges -1), oneProgress);
-            setTimeout(() => { clearInterval(timerId) },h);
-        },[Proges])
-
+        },[seconds]);
+     
+console.log(Proges)
     const renderError = () => {
         if (!error) {
             return;

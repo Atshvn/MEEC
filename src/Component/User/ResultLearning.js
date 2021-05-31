@@ -129,13 +129,21 @@ export const ResultLearning = () => {
                         <div className="col-md-12 mb-2">
                             <div className="row">
                                 <div className="col-md-2"><p className="m-0 font-14 cl-d"><i>Chú thích: <sup>(*)</sup> </i></p></div>
-                                <div className="col-md-4 d-flex align-items-center">
+                                <div className="col-md-2 d-flex align-items-center">
                                     <div className="bg-c mr-4" style={{ width: '50px', height: '20px' }}></div>
-                                    <div><p className="m-0 font-14">Đáp án đúng và câu trả lời đúng</p></div>
+                                    <div><p className="m-0 font-14">Đáp án đúng</p></div>
                                 </div>
-                                <div className="col-md-4 d-flex align-items-center">
+                                <div className="col-md-2 d-flex align-items-center">
                                     <div className="bg-d mr-4" style={{ width: '50px', height: '20px' }}></div>
                                     <div><p className="m-0 font-14">Đáp án sai</p></div>
+                                </div>
+                                <div className="col-md-2 d-flex align-items-center">
+                                    <div className="bg-c2 mr-4" style={{ width: '50px', height: '20px' }}></div>
+                                    <div><p className="m-0 font-14">Trả lời đúng</p></div>
+                                </div>
+                                <div className="col-md-2 d-flex align-items-center">
+                                    <div className="bg-d2 mr-4" style={{ width: '50px', height: '20px' }}></div>
+                                    <div><p className="m-0 font-14">Trả lời sai</p></div>
                                 </div>
                             </div>
                         </div>
