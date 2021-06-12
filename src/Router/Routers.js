@@ -1,7 +1,7 @@
 import { Demo, Home, Course, Course1 , Course3 , Course4, Course5, Course6 , Course2, Contact, Recruit, RecruitDetail, ForMe} from '../Component/Main';
 import { Foodter, TopMenuClient} from '../Component/Template'
 import { Route, Switch, BrowserRouter, Redirect } from 'react-router-dom';
-import { ForgotPass, Login , Page404, Signup, LoginAdmin} from '../Component/System';
+import { ForgotPass, Login , Page404, Signup, LoginAdmin, RegisterCourse} from '../Component/System';
 import { MainUser, Mid, Profile, ResultLearning, Schedule } from '../Component/User';
 import { HomeAdmin, Question, TestManager } from '../Component/Admin';
 import { CourseManage } from '../Component/Admin/CourseManage';
@@ -18,6 +18,7 @@ export const Routers = () => {
                 <Route exact path="/" component={Home} />
                 <Route exact path="/login" component={Login}/>
                 <Route exact path="/signup" component={Signup}/>
+                <Route exact path="/register-success" component={RegisterCourse}/>
                 <Route exact path="/forgot-password" component={ForgotPass}/>
                 {/* <Route exact path="/demo" component={Demo} /> */}
                 <PrivateRoute exact path="/main" component={MainUser} />

@@ -65,7 +65,9 @@ export const Signup = () => {
             }
             else{
                 Alertsuccess("Đăng kí thành công");
-                history.push("/login");
+                localStorage.setItem("CourseId", JSON.stringify(+CountID));
+                history.push("/register-success");
+
             }
             // dispatch({ type: 'SET_USERINFO', userInfor: response })
             

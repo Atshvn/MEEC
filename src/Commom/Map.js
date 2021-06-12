@@ -1,36 +1,37 @@
 
 import React, { Component } from 'react';
 import GoogleMapReact from 'google-map-react';
+import {
+    withScriptjs,
+    withGoogleMap,
+    GoogleMap,
+    Marker,
+    InfoWindow
+} from "react-google-maps";
 
-const AnyReactComponent = ({ text }) => <div>{text}</div>;
+const { compose, withProps, withStateHandlers } = require("recompose");
 
-class SimpleMap extends Component {
-    static defaultProps = {
-        center: {
-            lat: 10.822259645376581,
-            lng: 106.68745776178493
-        },
-        zoom: 15
-    };
-    render() {
-        return (
-            // Important! Always set the container height explicitly
-            <div style={{ height: '60vh', width: '100%' }}>
-                <GoogleMapReact
-                    bootstrapURLKeys={{ key: "AIzaSyAOkR9tW-zKh72ZVYVDuFc6Sym01EN_W9E" }}
-                    defaultCenter={this.props.center}
-                    defaultZoom={this.props.zoom}
-                >
-                    <AnyReactComponent
-                        lat={10.822259645376581}
-                        lng={106.68745776178493}
-                        text="Master Easy English Center"
-                    />
-                    
-                </GoogleMapReact>
-            </div>
-        );
-    }
+
+const MapWithAMarker = withScriptjs(withGoogleMap(props =>
+    <GoogleMap
+        defaultZoom={16}
+        defaultCenter={{ lat: 10.822259645376581, lng: 106.68745776178493 }}
+    >
+        <Marker
+            position={{ lat: 10.822259645376581, lng: 106.68745776178493 }}
+        />
+
+    </GoogleMap>
+));
+
+const SimpleMap = () => {
+    return (
+        <MapWithAMarker
+            googleMapURL="https://maps.googleapis.com/maps/api/js?key=AIzaSyAOkR9tW-zKh72ZVYVDuFc6Sym01EN_W9E&v=3.exp&libraries=geometry,drawing,places"
+            loadingElement={<div style={{ height: `100%` }} />}
+            containerElement={<div style={{ height: `500px` }} />}
+            mapElement={<div style={{ height: `100%` }} />}
+        />
+    )
 }
-
 export default SimpleMap;

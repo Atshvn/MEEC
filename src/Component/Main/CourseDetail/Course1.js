@@ -39,6 +39,7 @@ export const Course1 = () => {
             <div className="container pt-5 ">
                 <div className="row">
                     <div className="col-md-8">
+                    <h2 className="f-700 color-text mb-4">Học phí: <span className="cl-d">5.900.000 vnd </span></h2>
                         <h2 className="f-700 color-text">Lộ trình học </h2>
                         <p className="mb-0 color-text">Chia làm 3 giai đoạn: </p>
                         <h5 className="f-700 color-text">Giai đoạn 1(50 giờ): XÂY DỰNG NỀN TẢNG KIẾN THỨC CƠ BẢN</h5>

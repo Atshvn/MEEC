@@ -104,7 +104,7 @@ export const Contact = () => {
                     </div>
                     <div className="col-md-6">
                         <h4 className="cl-i f-400">Mọi thắc mắc xin gửi về</h4>
-                        <h1 className="f-700 pt-1">Hòm thư góp ý</h1>
+                        <h1 className="f-700 pt-1">Hòm thư tư vấn và góp ý</h1>
                             <div className="row pt-4">
                                 <div className="col-12 mb-2">
                                     <div class="form-group">

@@ -19,7 +19,7 @@ export const Course6 = () => {
                 <div className="container">
                     <div className=" row  pt-5">
                         <div className="col-md-6">
-                            <h2 className="f-700 color-text">Khoá học TOEIC 0 - 500 từ mất gốc</h2>
+                            <h2 className="f-700 color-text">Khóa học tiếng anh cho người đi làm</h2>
                             <p>Khóa học TOEIC cho người mất căn bản - TOEIC 0 - 500+ của Athena được xây dựng theo lộ trình tối ưu gồm 26 buổi trong vòng 3,5 tháng.
                                  Khóa học được xây dựng bởi Thạc sĩ Đỗ Vân Anh sau nhiều năm nghiên cứu, giảng dạy và đang được áp dụng thành công tại Anh ngữ MEEC.
                                   Chương trình học liên tục được cô Vân Anh cập nhật và đổi mới, đảm bảo học viên có được kiến thức và kết quả học tập cao nhất.</p>
@@ -38,6 +38,7 @@ export const Course6 = () => {
             <div className="container pt-5 ">
                 <div className="row">
                     <div className="col-md-8">
+                    <h2 className="f-700 color-text mb-4">Học phí: <span className="cl-d">5.900.000 vnd </span></h2>
                         <h2 className="f-700 color-text">Lộ trình học </h2>
                         <p className="mb-0 color-text">Chia làm 3 giai đoạn: </p>
                         <h5 className="f-700 color-text">Giai đoạn 1(50 giờ): XÂY DỰNG NỀN TẢNG KIẾN THỨC CƠ BẢN</h5>

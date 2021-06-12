@@ -69,7 +69,7 @@ export const Review = () => {
                                     <div className="row">
                                         <div className="col-md-4">
                                             <div className="pt-2" style={{ zIndex: '11' }} >
-                                                <img className="avatar m-auto" class="rounded-circle" src="assets\images\avatar.jpg" alt="" width="80" />
+                                                <img className="avatar m-auto" class="rounded-circle" src="assets\images\avatar2.png" alt="" width="80" />
                                             </div>
                                         </div>
                                         <div className="col-md-8 pt-4 pl-4">
@@ -93,7 +93,7 @@ export const Review = () => {
                                     <div className="row">
                                         <div className="col-md-4">
                                             <div className="pt-2" style={{ zIndex: '11' }} >
-                                                <img className="avatar m-auto" class="rounded-circle" src="assets\images\avatar.jpg" alt="" width="80" />
+                                                <img className="avatar m-auto" class="rounded-circle" src="assets\images\avatar3.png" alt="" width="80" />
                                             </div>
                                         </div>
                                         <div className="col-md-8 pt-4 pl-4">
@@ -114,7 +114,7 @@ export const Review = () => {
                                     <div className="row">
                                         <div className="col-md-4">
                                             <div className="pt-2" style={{ zIndex: '11' }} >
-                                                <img className="avatar m-auto" class="rounded-circle" src="assets\images\avatar.jpg" alt="" width="80" />
+                                                <img className="avatar m-auto" class="rounded-circle" src="assets\images\avatar4.png" alt="" width="80" />
                                             </div>
                                         </div>
                                         <div className="col-md-8 pt-4 pl-4">
@@ -135,7 +135,7 @@ export const Review = () => {
                                     <div className="row">
                                         <div className="col-md-4">
                                             <div className="pt-2" style={{ zIndex: '11' }} >
-                                                <img className="avatar m-auto" class="rounded-circle" src="assets\images\avatar.jpg" alt="" width="80" />
+                                                <img className="avatar m-auto" class="rounded-circle" src="assets\images\avatar5.png" alt="" width="80" />
                                             </div>
                                         </div>
                                         <div className="col-md-8 pt-4 pl-4">
@@ -177,7 +177,7 @@ export const Review = () => {
                                     <div className="row">
                                         <div className="col-md-4">
                                             <div className="pt-2" style={{ zIndex: '11' }} >
-                                                <img className="avatar m-auto" class="rounded-circle" src="assets\images\avatar.jpg" alt="" width="80" />
+                                                <img className="avatar m-auto" class="rounded-circle" src="assets\images\avatar2.png" alt="" width="80" />
                                             </div>
                                         </div>
                                         <div className="col-md-8 pt-4 pl-4">
@@ -198,7 +198,7 @@ export const Review = () => {
                                     <div className="row">
                                         <div className="col-md-4">
                                             <div className="pt-2" style={{ zIndex: '11' }} >
-                                                <img className="avatar m-auto" class="rounded-circle" src="assets\images\avatar.jpg" alt="" width="80" />
+                                                <img className="avatar m-auto" class="rounded-circle" src="assets\images\avatar3.png" alt="" width="80" />
                                             </div>
                                         </div>
                                         <div className="col-md-8 pt-4 pl-4">
