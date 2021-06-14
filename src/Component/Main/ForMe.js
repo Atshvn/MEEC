@@ -25,7 +25,7 @@ export const ForMe = () => {
                         <div className="col-md-6">
                             <div>
                                 <h5 className="f-900">GIỚI THIỆU</h5>
-                                <h1 className="f-900"> Anh Ngữ Master Easy English Center to change</h1>
+                                <h1 className="f-900"> Anh Ngữ Master Easy English Center</h1>
                                 <p>MEEC tự hào là đơn vị đào tạo Anh ngữ hàng đầu tại Việt Nam với sự tận tâm,
                                 chân thành và trách nhiệm. Được thành lập từ năm 2014, MEEC đã trở thành nơi
                                 trao gửi niềm tin học tiếng Anh cho hàng ngàn học viên chuyên sâu trong 3

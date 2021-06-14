@@ -55,7 +55,7 @@ export const RegisterCourse = () => {
 
                                     </div>
                                     <div className="col-md-8 mt-2">
-                                        <img className=" m-auto" src="assets\images\Welcome.gif" alt="" />
+                                       <img className=" m-auto" src="assets\images\Welcome.gif" alt="" /> 
 
                                     </div>
                                 </div>

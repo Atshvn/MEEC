@@ -152,7 +152,7 @@ export const MainUser = () => {
     }
     const ListTestActived = () => {
         return (
-            dataActived.map((item, index) => {
+            dataActived.length > 0  ?  dataActived.map((item, index) => {
                 const x = filterItem(DataCourse, item.courseId)
 
                 return (
@@ -170,7 +170,7 @@ export const MainUser = () => {
                         </div>
                     </div>
                 )
-            })
+            }) : <div className="col-md-12"><p className="text-center font-20"> Không có bài thi nào quá hạn</p></div>
         )
     }
     
