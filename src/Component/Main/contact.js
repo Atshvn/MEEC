@@ -23,6 +23,7 @@ export const Contact = () => {
     const ContentRef = useRef()
 
     const MEEC_MAILBOXL_Save = async () => {
+        const Regex = /[A-Z0-9._%+-]+@[A-Z0-9-]+.+.[A-Z]{2,4}/igm
         if (Name === "") {
             NameRef.current.focus();
             Alertwarning("Hãy nhập tên")
@@ -32,6 +33,11 @@ export const Contact = () => {
             EmailRef.current.focus();
             Alertwarning("Hãy nhập email")
             return
+        }
+        if (!Regex.test(Email)) {
+            Alertwarning("Vui lòng nhập đúng định dạng email")
+            EmailRef.current.focus()
+            return;
         }
         if (Phone === "") {
             PhoneRef.current.focus();

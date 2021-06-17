@@ -35,6 +35,7 @@ export const Signup = () => {
     const emailRef = useRef();
 
     const handleSignUp = async () => {
+        const Regex = /[A-Z0-9._%+-]+@[A-Z0-9-]+.+.[A-Z]{2,4}/igm
         if(userName === ""){
             Alertwarning("Nhập tên người dùng");
             userNameRef.current.focus();
@@ -43,6 +44,11 @@ export const Signup = () => {
         if(email === ""){
             Alertwarning("Nhập email");
             emailRef.current.focus();
+            return;
+        }
+        if (!Regex.test(email)) {
+            Alertwarning("Vui lòng nhập đúng định dạng email")
+            emailRef.current.focus()
             return;
         }
         if(CountID === 0){
